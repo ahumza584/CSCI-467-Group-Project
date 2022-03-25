@@ -1,1 +1,9 @@
+use csci467;
+ create table customers (
+    id int,
+    name varchar(50),
+    city varchar(50),
+    street varchar(50),
+    contact varchar(50)
+ );
 
