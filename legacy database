@@ -1,9 +1,10 @@
-use csci467;
- create table customers (
+USE z1913636;
+
+CREATE TABLE customers (
     id int,
-    name varchar(50),
-    city varchar(50),
-    street varchar(50),
-    contact varchar(50)
+    name VARCHAR(50),
+    city VARCHAR(50),
+    street VARCHAR(50),
+    contact VARCHAR(50)
  );
 
