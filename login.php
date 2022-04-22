@@ -3,8 +3,8 @@
     session_start();
     error_reporting(E_ALL);
 
-    $username = ' ';    //  zid
-    $password = ' ';    //  password to db
+    $username = 'z1913636';    //  zid
+    $password = '2000May03';    //  password to db
 
     try{
         //connection

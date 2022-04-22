@@ -4,8 +4,8 @@
 <body>
 <?php
 
-$username1 = " ";    // zid
-$password1 = " ";    // password to db
+$username1 = "z1913636";    // zid
+$password1 = "2000May03";    // password to db
 $username2 = "student";
 $password2 = "student";
 
@@ -23,13 +23,19 @@ try {
 	$pdo2 = new PDO($dsn2, $username2, $password2);
 	$pdo2->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 
-    // Headers
+    // Header
     echo "<h1>Quote System</h1>\n";
+
+    // button that takes to view existing quotes page
+    echo "<a href = 'http://students.cs.niu.edu/~z1913636/467GroupProj/viewQuotes.php'>";
+    echo "<input type=\"submit\" value=\"View Existing Quotes\" />";
+    echo "</a>";
+
     echo "<h3>Create new quote for Customer:</h3>";
 
     // select customer that needs new quote
     echo "<form action=\"\" method=\"GET\">";
-	echo "<select name=\"customer_name\">";
+	echo "<select name=\"name\">";
 
     // get data on customer from LEGACY Database
     $customers = $pdo2->query("SELECT * FROM customers;");
@@ -42,8 +48,36 @@ try {
         echo "<option value=$cus[id]>" . $cus["name"] . " (ID = " . $cus["id"] . ") </option>";
     }
 
+    // submit button to choose customer
     echo "<select><input type=\"submit\" />";
 	echo "</form>";
+
+
+    // after choosing customer, enter information about new quote
+    if(isset($_GET["name"])){
+        $selectedname = $pdo2->prepare('SELECT * FROM customers WHERE id = ?;');
+        $selectedname->execute(array($_GET['name']));
+        $singlename = $selectedname->fetchALL(PDO::FETCH_ASSOC);
+
+        echo "<h2>";
+        $thename = $_GET["name"];
+        foreach($singlename as $single){
+            echo "$single[name]";
+        }
+        echo "</h2>";
+
+        echo "<form action=\"\" method=\"POST\">";
+        echo "<h3>Quote Information</h3>";
+        echo "<input type = \"text\" name = \"subtotal\" placeholder = \"Enter Quote Subtotal\" />";
+
+        // need to add other quote information (description and notes)
+
+        echo "<br><br>";
+        echo "<input type=\"submit\" name=\"submit\" value=\"Submit Quote\" />";
+        echo "</form>";
+ 
+    }
+
 
 }
 
