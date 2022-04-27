@@ -79,9 +79,15 @@ try {
         
 
         // NOTES AND LINE ITEMS (BOTH SHOULD LET YOU ADD MULTIPLE FORMS AFTER HITTING "NEW" BUTTON)
-        echo "<p>Line Items: <input type = \"submit\" value = \"New Item\"</p>";
-        
-        echo "<p>Notes: <input type = \"submit\" value = \"New Note\"</p>";
+        echo "<p>Line Items: <input type = \"submit\" value = \"New Item\"/> </p>";
+        echo "<br><br>";
+        echo "<p>Notes: <input type = \"submit\" value = \"New Note\"/> </p>";
+        echo "<br><br>";
+
+
+        // DISCOUNT
+        echo "<p>Discount: <input type = \"textarea\" placeholder = \"Enter Discount\" />";
+        echo "<input type = \"submit\" value = \"Apply\" /> </p>";
         
 
 
