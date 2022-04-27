@@ -69,12 +69,16 @@ try {
         echo "<form action=\"\" method=\"POST\">";
         echo "<h3>Quote Information</h3>";
         echo "<input type = \"text\" name = \"subtotal\" placeholder = \"Enter Quote Subtotal\" />";
+        echo "<br><br>";
+        echo "<input type = \"text\" name = \"descript\" placeholder = \"Enter Description\" />";
 
-        // need to add other quote information (description and notes)
+        // do notes go here as well?
 
         echo "<br><br>";
         echo "<input type=\"submit\" name=\"submit\" value=\"Submit Quote\" />";
         echo "</form>";
+
+        
  
     }
 
