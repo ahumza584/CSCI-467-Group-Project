@@ -68,7 +68,7 @@ try {
 
         echo "<form action=\"\" method=\"POST\">";
         echo "<h3>Quote Information</h3>";
-        echo "<input type = \"text\" name = \"subtotal\" placeholder = \"Enter Quote Subtotal\" />";
+        echo "<input type = \"text\" name = \"email\" placeholder = \"Enter Customer Email\" />";
         echo "<br><br>";
         echo "<input type = \"text\" name = \"descript\" placeholder = \"Enter Description\" />";
 
