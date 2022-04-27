@@ -79,8 +79,13 @@ try {
         
 
         // NOTES AND LINE ITEMS (BOTH SHOULD LET YOU ADD MULTIPLE FORMS)
-        echo "<p>Line Items: </p>";
-        echo "<input type = \"submit\" value = \"New Item\" />";
+        echo "<p>Line Items: <input type = \"submit\" value = \"New Item\"</p>";
+        
+
+        
+
+
+        
         
 
 
