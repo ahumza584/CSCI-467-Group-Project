@@ -59,6 +59,8 @@ try {
         $selectedname->execute(array($_GET['name']));
         $singlename = $selectedname->fetchALL(PDO::FETCH_ASSOC);
 
+
+        // CUSTOMER NAME HEADER
         echo "<h2>";
         $thename = $_GET["name"];
         foreach($singlename as $single){
@@ -66,14 +68,23 @@ try {
         }
         echo "</h2>";
 
+        // CUSTOMER INFO BELOW HEADER
+
+
+        // CUSTOMER EMAIL FORM
         echo "<form action=\"\" method=\"POST\">";
         echo "<h3>Quote Information</h3>";
         echo "<input type = \"text\" name = \"email\" placeholder = \"Enter Customer Email\" />";
         echo "<br><br>";
-        echo "<input type = \"text\" name = \"descript\" placeholder = \"Enter Description\" />";
+        
 
-        // do notes go here as well?
+        // NOTES AND LINE ITEMS (BOTH SHOULD LET YOU ADD MULTIPLE FORMS)
+        echo "<p>Line Items: </p>";
+        echo "<input type = \"submit\" value = \"New Item\" />";
+        
 
+
+        // SUMBIT QUOTE BUTTON
         echo "<br><br>";
         echo "<input type=\"submit\" name=\"submit\" value=\"Submit Quote\" />";
         echo "</form>";
