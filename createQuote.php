@@ -126,17 +126,12 @@ try {
             $query2 = "INSERT INTO LINEITEM(QID, PRICE, DESCRIPT) VALUES('$id', '$price', '$descript')";
             $query3 = "INSERT INTO NOTE(QID, STATEMENT) VALUES('$id', '$statement')";
 
-            $run = new PDO($pdo1, $query1, $query2, $query3);
+            $run1 = new PDO($pdo1, $query1);
+            $run2 = new PDO($pdo1, $query2);
+            $run3 = new PDO($pdo1, $query);
 
-            if($run)
-            {
-                echo "<p>Quote Submitted</p>";
-            }
-            else
-            {
-                echo "<p>Quote Not Submitted. Check for Errors.</p>";
-            }
-            
+            echo "<p>Quote Submitted</p>";
+        
         }
         
     }
