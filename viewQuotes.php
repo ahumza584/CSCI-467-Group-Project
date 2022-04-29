@@ -31,11 +31,7 @@ try {
     echo "<h1>Quote System</h1>\n";
     echo "<h3>Unresolved Quotes:</h3>";
 
-    // Display quotes
-    $rs = $pdo1->query("SELECT * FROM SQUOTE;");
-    $rows = $rs->fetchAll(PDO::FETCH_ASSOC);
-    draw_table($rows);
-
+    // Function for draw table
     function draw_table($rows){
         echo "<table border=1 cellspacing=1>";
         echo "<tr>";
@@ -51,7 +47,15 @@ try {
             echo "</tr>";
         }
         echo "</table>\n";
-    }
+
+
+    // Display quotes
+    $rs = $pdo1->query("SELECT * FROM SQUOTE;");
+    $rows = $rs->fetchAll(PDO::FETCH_ASSOC);
+    draw_table($rows);
+
+    
+
     
 
 
