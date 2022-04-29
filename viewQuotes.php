@@ -5,7 +5,12 @@
 <?php
 
 // This page will fill the requirments of the second interface, this is where new quotes will go to. From here they can be edited or removed. This is also where
+<<<<<<< HEAD
 // a discount can be applied for a second time. Notes on quotes can also be viewed and added. After all edits and discounts have been made, the quote is either left unresolved or sanctioned
+=======
+// a discount can be applied for a second time. Notes on quotes can also be viewed and added. After all edits and discounts have been made, the quote is either marked as unresolved or sanctioned.
+
+>>>>>>> 84e8a2cb7444eadf10c8dc34ddd09e08d5b37923
 
 
 $username1 = "z1913636";    // zid
