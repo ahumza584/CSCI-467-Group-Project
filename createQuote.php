@@ -27,7 +27,7 @@ try {
     echo "<h1>Quote System</h1>\n";
 
     // button that takes to view existing quotes page
-    echo "<a href = 'http://students.cs.niu.edu/~z1913636/467GroupProj/viewQuotes.php'>";
+    echo "<a href = 'http://students.cs.niu.edu/~z1913636/467GroupProj/viewQuotes.php'>";      //<---------- change this to where your file is (url)
     echo "<input type=\"submit\" value=\"View Existing Quotes\" />";
     echo "</a>";
 
