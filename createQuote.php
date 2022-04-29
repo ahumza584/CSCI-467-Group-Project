@@ -4,8 +4,8 @@
 <body>
 <?php
 
-$username1 = "z1913636";    // zid
-$password1 = "2000May03";    // password to db
+$username1 = "";    // zid
+$password1 = "";    // password to db
 $username2 = "student";
 $password2 = "student";
 
@@ -14,7 +14,7 @@ error_reporting(E_ALL);
 
 try {
     // Connection to Database
-    $dsn1 = "mysql:host=courses;dbname=z1913636";      // <----- change to your zid
+    $dsn1 = "mysql:host=courses;dbname=";      // <----- change to your zid
 	$pdo1 = new PDO($dsn1, $username1, $password1);
 	$pdo1->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 
@@ -90,7 +90,6 @@ try {
     
 
         
-        
         // NOTES
         echo "<p>Notes: <input type = \"submit\" name = \"newNote\" /> </p>";
         if(isset($_POST["newNote"]))
@@ -103,6 +102,7 @@ try {
         // DISCOUNT
         echo "<p>Discount: <input type = \"textarea\" placeholder = \"Enter Discount\" />";
         echo "<input type = \"submit\" value = \"Apply\" /> </p>";
+        echo "</form>";
         
 
 
@@ -110,15 +110,35 @@ try {
         // SUMBIT QUOTE BUTTON
         echo "<br><br>";
         echo "<input type=\"submit\" name=\"submitQuo\" value=\"Submit Quote\" />";
-        echo "</form>";
 
+
+        // send data to database and print note
         if(isset($_POST["submitQuo"]))
         {
-            echo "<br><br>";
-            echo "<p>Quote Submitted</p>";
+            $name = $_POST["name"];
+            $qid = $_POST["id"];
+            $email = $_POST["EMAIL"];
+            $price = $_POST["PRICE"];
+            $descript = $_POST["DESCRIPT"];
+            $statement = $_POST["STATEMENT"];
+
+            $query1 = "INSERT INTO SQUOTE(QID, OWNER, EMAIL, DESCRIPT) VALUES('$id', '$name', '$email', '$descript')";
+            $query2 = "INSERT INTO LINEITEM(QID, PRICE, DESCRIPT) VALUES('$id', '$price', '$descript')";
+            $query3 = "INSERT INTO NOTE(QID, STATEMENT) VALUES('$id', '$statement')";
+
+            $run = new PDO($pdo1, $query1, $query2, $query3);
+
+            if($run)
+            {
+                echo "<p>Quote Submitted</p>";
+            }
+            else
+            {
+                echo "<p>Quote Not Submitted. Check for Errors.</p>";
+            }
+            
         }
         
- 
     }
 
 

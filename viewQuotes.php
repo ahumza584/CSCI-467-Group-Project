@@ -8,8 +8,8 @@
 // a discount can be applied for a second time. Notes on quotes can also be viewed and added. After all edits and discounts have been made, the quote is either left unresolved or sanctioned
 
 
-$username1 = "z1913636";    // zid
-$password1 = "2000May03";    // password to db
+$username1 = "";    // zid
+$password1 = "";    // password to db
 $username2 = "student";
 $password2 = "student";
 
@@ -18,7 +18,7 @@ error_reporting(E_ALL);
 
 try {
     // Connection to Database
-    $dsn1 = "mysql:host=courses;dbname=z1913636";      // <----- change to your zid
+    $dsn1 = "mysql:host=courses;dbname=";      // <----- change to your zid
 	$pdo1 = new PDO($dsn1, $username1, $password1);
 	$pdo1->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 
