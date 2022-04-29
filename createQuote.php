@@ -82,17 +82,20 @@ try {
         // LINE ITEMS
         echo "<p>Line Items: <input type = \"submit\" name = \"newLine\" /> </p>";
         echo "<br><br>";
-
-    
-        
-
-        // NOTES
-        echo "<p>Notes: <input type = \"submit\" name = \"newNote\" /> </p>";
-        echo "<br><br>";
-        if(isset($_POST["newNote"]))
+        if(isset($_POST["newLine"]))
         {
             echo "<input type = \"textarea\" name = \"PRICE\" />";
             echo "<input type = \"textarea\" name = \"DESCRIPT\" />";
+        }
+    
+
+        
+        
+        // NOTES
+        echo "<p>Notes: <input type = \"submit\" name = \"newNote\" /> </p>";
+        if(isset($_POST["newNote"]))
+        {
+            echo "<input type = \"textarea\" name = \"STATEMENT\" />";
         }
 
 
@@ -103,26 +106,20 @@ try {
         
 
 
-        
-        
-
 
         // SUMBIT QUOTE BUTTON
         echo "<br><br>";
         echo "<input type=\"submit\" name=\"submitQuo\" value=\"Submit Quote\" />";
         echo "</form>";
 
+        if(isset($_POST["submitQuo"]))
+        {
+            echo "<br><br>";
+            echo "<p>Quote Submitted</p>";
+        }
         
  
     }
-
-    if(isset($_POST["submitQuo"]))
-    {
-        echo "<br><br>";
-        echo "<p>Quote Submitted</p>";
-    }
-
-
 
 
 }
