@@ -78,11 +78,17 @@ try {
         echo "<br><br>";
         
 
-        // NOTES AND LINE ITEMS (BOTH SHOULD LET YOU ADD MULTIPLE FORMS AFTER HITTING "NEW" BUTTON)
+        // LINE ITEMS
         echo "<p>Line Items: <input type = \"submit\" value = \"New Item\"/> </p>";
         echo "<br><br>";
+        if(isset($_GET["New Item"])){
+            echo "<input type =\"textarea\" name = \"descript\" />";
+        }
+
+        // NOTES
         echo "<p>Notes: <input type = \"submit\" value = \"New Note\"/> </p>";
         echo "<br><br>";
+
 
 
         // DISCOUNT
