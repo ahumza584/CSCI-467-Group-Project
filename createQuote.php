@@ -53,6 +53,7 @@ try {
 	echo "</form>";
 
 
+
     // after choosing customer, enter information about new quote
     if(isset($_GET["name"])){
         $selectedname = $pdo2->prepare('SELECT * FROM customers WHERE id = ?;');
@@ -74,19 +75,20 @@ try {
         // CUSTOMER EMAIL FORM
         echo "<form action=\"\" method=\"POST\">";
         echo "<h3>Quote Information</h3>";
-        echo "<input type = \"text\" name = \"email\" placeholder = \"Enter Customer Email\" />";
+        echo "<input type = \"text\" name = \"EMAIL\" placeholder = \"Enter Customer Email\" />";
         echo "<br><br>";
         
 
         // LINE ITEMS
-        echo "<p>Line Items: <input type = \"submit\" value = \"New Item\"/> </p>";
+        echo "<p>Line Items:</p>";
         echo "<br><br>";
-        if(isset($_GET["New Item"])){
-            echo "<input type =\"textarea\" name = \"descript\" />";
-        }
+        echo "<input type = \"text\" name = \"\" />"
+
+    
+        
 
         // NOTES
-        echo "<p>Notes: <input type = \"submit\" value = \"New Note\"/> </p>";
+        echo "<p>Notes:</p>";
         echo "<br><br>";
 
 
@@ -103,16 +105,21 @@ try {
 
         // SUMBIT QUOTE BUTTON
         echo "<br><br>";
-        echo "<input type=\"submit\" name=\"submit\" value=\"Submit Quote\" />";
+        echo "<input type=\"submit\" name=\"submitQuo\" value=\"Submit Quote\" />";
         echo "</form>";
 
         
  
     }
 
+    if(isset($_POST['submitQuo']))
+    {
+        echo "<br><br>";
+        echo "<p>Quote Submitted</p>";
+    }
+
 
 }
-
 
 
 catch(PDOexception $e) { //handle that expection
