@@ -101,14 +101,11 @@ try {
 
         // DISCOUNT (NEED TO ADD NAME TO INPUT TEXT)
         echo "<p>Discount: <input type = \"textarea\" placeholder = \"Enter Discount\"</p>";
-        echo "</form>";
-        
 
 
-
-        // SUMBIT QUOTE BUTTON
         echo "<br><br>";
         echo "<input type=\"submit\" name=\"submitQuo\" value=\"Submit Quote\" />";
+        echo "</form>";
 
 
         // send data to database and print note
