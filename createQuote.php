@@ -99,7 +99,7 @@ try {
 
 
 
-        // DISCOUNT
+        // DISCOUNT (NEED TO ADD NAME TO INPUT TEXT)
         echo "<p>Discount: <input type = \"textarea\" placeholder = \"Enter Discount\" />";
         echo "<input type = \"submit\" value = \"Apply\" /> </p>";
         echo "</form>";
@@ -115,6 +115,9 @@ try {
         // send data to database and print note
         if(isset($_POST["submitQuo"]))
         {
+            echo "<br><br>";
+            echo "<p>Quote Submitted</p>";
+
             $name = $_POST["name"];
             $qid = $_POST["id"];
             $email = $_POST["EMAIL"];
@@ -130,7 +133,6 @@ try {
             $run2 = new PDO($pdo1, $query2);
             $run3 = new PDO($pdo1, $query);
 
-            echo "<p>Quote Submitted</p>";
         
         }
         
