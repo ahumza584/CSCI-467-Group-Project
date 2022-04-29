@@ -4,8 +4,8 @@
 <body>
 <?php
 
-$username1 = "";    // zid
-$password1 = "";    // password to db
+$username1 = "z1913636";    // zid
+$password1 = "2000May03";    // password to db
 $username2 = "student";
 $password2 = "student";
 
@@ -14,7 +14,7 @@ error_reporting(E_ALL);
 
 try {
     // Connection to Database
-    $dsn1 = "mysql:host=courses;dbname=";      // <----- change to your zid
+    $dsn1 = "mysql:host=courses;dbname=z1913636";      // <----- change to your zid
 	$pdo1 = new PDO($dsn1, $username1, $password1);
 	$pdo1->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 
@@ -80,9 +80,9 @@ try {
         
 
         // LINE ITEMS
-        echo "<p>Line Items: <input type = \"submit\" name = \"newLine\" /> </p>";
+        echo "<p>Line Items: <input type = \"button\" name = \"newLine\" value = \"New Item\" /> </p>";
         echo "<br><br>";
-        if(isset($_POST["newLine"]))
+        if(isset($_GET["newLine"]))
         {
             echo "<input type = \"textarea\" name = \"PRICE\" />";
             echo "<input type = \"textarea\" name = \"DESCRIPT\" />";
@@ -91,8 +91,8 @@ try {
 
         
         // NOTES
-        echo "<p>Notes: <input type = \"submit\" name = \"newNote\" /> </p>";
-        if(isset($_POST["newNote"]))
+        echo "<p>Notes: <input type = \"button\" name = \"newNote\" value = \"New Note\" /> </p>";
+        if(isset($_GET["newNote"]))
         {
             echo "<input type = \"textarea\" name = \"STATEMENT\" />";
         }
@@ -100,8 +100,7 @@ try {
 
 
         // DISCOUNT (NEED TO ADD NAME TO INPUT TEXT)
-        echo "<p>Discount: <input type = \"textarea\" placeholder = \"Enter Discount\" />";
-        echo "<input type = \"submit\" value = \"Apply\" /> </p>";
+        echo "<p>Discount: <input type = \"textarea\" placeholder = \"Enter Discount\"</p>";
         echo "</form>";
         
 
