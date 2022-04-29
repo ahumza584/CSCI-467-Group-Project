@@ -5,8 +5,8 @@
 <?php
 
 // This page will fill the requirments of the second interface, this is where new quotes will go to. From here they can be edited or removed. This is also where
-// a discount can be applied. Notes on quotes can also be viewed and added. After all edits and discounts have been made, the quote is either left unresolved or sanctioned.
-// Sanctioned quotes are emailed out to the customer, the email will contain all quote data except the secret notes.
+// a discount can be applied for a second time. Notes on quotes can also be viewed and added. After all edits and discounts have been made, the quote is either marked as unresolved or sanctioned.
+
 
 
 $username1 = "z1913636";    // zid
