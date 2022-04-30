@@ -27,7 +27,7 @@ try {
     echo "<h1>Quote System</h1>\n";
 
     // button that takes to view existing quotes page
-    echo "<a href = 'http://students.cs.niu.edu/~z1913636/467GroupProj/viewQuotes.php'>";      //<---------- change this to where your file is (url)
+    echo "<a href = 'viewQuotes.php'>";      //<---------- change this to where your file is (url)
     echo "<input type=\"submit\" value=\"View Existing Quotes\" />";
     echo "</a>";
 
@@ -60,6 +60,19 @@ try {
         $selectedname->execute(array($_GET['name']));
         $singlename = $selectedname->fetchALL(PDO::FETCH_ASSOC);
 
+        function newLine()
+        {
+            echo "<input type = \"textarea\" name = \"PRICE\" />";
+            echo "<input type = \"textarea\" name = \"DESCRIPT\" />";
+            echo "<br><br>";
+        }
+
+        function newNote()
+        {
+            echo "<input type = \"textarea\" name = \"STATEMENT\" />";
+            echo "<br><br>";
+        }
+    
 
         // CUSTOMER NAME HEADER
         echo "<h2>";
@@ -80,21 +93,20 @@ try {
         
 
         // LINE ITEMS
-        echo "<p>Line Items: <input type = \"button\" name = \"newLine\" value = \"New Item\" /> </p>";
+        echo "<p>Line Items: <input type = \"submit\" class = \"button\" name = \"newLine\" value = \"New Item\" /> </p>";
         echo "<br><br>";
-        if(isset($_GET["newLine"]))
+        if(array_key_exists('newLine', $_POST))
         {
-            echo "<input type = \"textarea\" name = \"PRICE\" />";
-            echo "<input type = \"textarea\" name = \"DESCRIPT\" />";
+            newLine();
         }
-    
 
         
         // NOTES
-        echo "<p>Notes: <input type = \"button\" name = \"newNote\" value = \"New Note\" /> </p>";
-        if(isset($_GET["newNote"]))
+        echo "<p>Notes: <input type = \"submit\" class = \"button\" name = \"newNote\" value = \"New Note\" /></p>";
+        echo "<br><br>";
+        if(array_key_exists('newNote', $_POST))
         {
-            echo "<input type = \"textarea\" name = \"STATEMENT\" />";
+            newNote();
         }
 
 
@@ -107,6 +119,12 @@ try {
         echo "<input type=\"submit\" name=\"submitQuo\" value=\"Submit Quote\" />";
         echo "</form>";
 
+        $name = $_POST["name"];
+        $qid = $_POST["id"];
+        $email = $_POST["EMAIL"];
+        $price = $_POST["PRICE"];
+        $descript = $_POST["DESCRIPT"];
+        $statement = $_POST["STATEMENT"];
 
         // send data to database and print note
         if(isset($_POST["submitQuo"]))
@@ -114,23 +132,17 @@ try {
             echo "<br><br>";
             echo "<p>Quote Submitted</p>";
 
-            $name = $_POST["name"];
-            $qid = $_POST["id"];
-            $email = $_POST["EMAIL"];
-            $price = $_POST["PRICE"];
-            $descript = $_POST["DESCRIPT"];
-            $statement = $_POST["STATEMENT"];
-
             $query1 = "INSERT INTO SQUOTE(QID, OWNER, EMAIL, DESCRIPT) VALUES('$id', '$name', '$email', '$descript')";
             $query2 = "INSERT INTO LINEITEM(QID, PRICE, DESCRIPT) VALUES('$id', '$price', '$descript')";
             $query3 = "INSERT INTO NOTE(QID, STATEMENT) VALUES('$id', '$statement')";
 
             $run1 = new PDO($pdo1, $query1);
             $run2 = new PDO($pdo1, $query2);
-            $run3 = new PDO($pdo1, $query);
+            $run3 = new PDO($pdo1, $query3);
 
         
         }
+        
         
     }
 
