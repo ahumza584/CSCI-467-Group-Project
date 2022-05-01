@@ -10,7 +10,7 @@
 include 'dbman.php';
 include 'dbfunctions/php';
 include 'createQuote.php';
-incldue 'login.php';
+include 'login.php';
 
 
 $username1 = "z1913636";    // zid
@@ -36,7 +36,7 @@ try {
     echo "<h1>Quote System</h1>\n";
     echo "<h3>Unresolved Quotes:</h3>";
 
-    display_quotes)();
+    display_quotes();
 
 
 
