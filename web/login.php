@@ -1,48 +1,26 @@
 <html><head><title>Quote System Login</title></head>
 <?php
-    session_start();
-    error_reporting(E_ALL);
 
-    $username = 'z1913636';    //  zid
-    $password = '2000May03';    //  password to db
+    include 'activate_debug.php';
+    include 'dblogin.php';
 
-    try{
-        //connection
-        $dsn = "mysql:host=courses;dbname=z193636";  // <----- change to your zid
-        $pdo = new PDO($dsn, $username, $password);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_WARNING);
+    if(array_key_exists('login',$_POST) {
+        if(empty($_POST['id']) || empty($_POST['password']) {
+            $message = '<label>*All fields are required</label>'
+        }
+        else {
+            $res = attempt_login($_POST['id'], $_POST['password']);
+            if ($res < 0) { //If no user is found
+                $message = '<label>*Incorrect login info. Try again.</label>';
+            } else          //Otherwise, go to other
+            {
+                //Start session upon success, and redirect to quote creation page
+                session_start()
+                $_SESSION['UID'] = $res
+                header("location:createQuote.php")
+            }
+        }
 
-        if(isset($_POST["login"]))  
-      {  
-           if(empty($_POST["id"]) || empty($_POST["password"]))  
-           {  
-                $message = '<label>*All fields are required</label>';  
-           }  
-           else  
-           {  
-                $username2 = $_POST['id'];
-			    $password2 = $_POST['password'];
-                
-                $sql = "SELECT * FROM ASSOCIATE WHERE ID=? AND PASSWD=? ";
-			    $query = $pdo->prepare($sql);
-			    $query->execute(array($username2,$password2));
-   
-                $count = $query->rowCount();  
-                if($count > 0)  
-                {   
-                     header("location:createQuote.php");  
-                }  
-                else  
-                { 
-                    $message = '<label>*Incorrect login info. Try again.</label>';  
-                }  
-           }  
-      }
-    
-    }
-
-    catch(PDOexception $e){
-        echo "Connection to database failed: " . $e->getMessage();
     }
 ?>
 
