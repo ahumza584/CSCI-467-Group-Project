@@ -4,6 +4,8 @@
 <body>
 <?php
 
+include 'dbfunctions.php';
+
 $username1 = "z1913636";    // zid
 $password1 = "2000May03";    // password to db
 $username2 = "student";
@@ -97,7 +99,7 @@ try {
         echo "<br><br>";
         if(array_key_exists('newLine', $_POST))
         {
-            newLine();
+            GetOrderById();
         }
 
         
@@ -140,12 +142,9 @@ try {
             $run2 = new PDO($pdo1, $query2);
             $run3 = new PDO($pdo1, $query3);
 
-        
         }
         
-        
     }
-
 
 }
 
