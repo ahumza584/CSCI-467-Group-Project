@@ -62,19 +62,6 @@ try {
         $selectedname->execute(array($_GET['name']));
         $singlename = $selectedname->fetchALL(PDO::FETCH_ASSOC);
 
-        function newLine()
-        {
-            echo "<input type = \"textarea\" name = \"PRICE\" />";
-            echo "<input type = \"textarea\" name = \"DESCRIPT\" />";
-            echo "<br><br>";
-        }
-
-        function newNote()
-        {
-            echo "<input type = \"textarea\" name = \"STATEMENT\" />";
-            echo "<br><br>";
-        }
-    
 
         // CUSTOMER NAME HEADER
         echo "<h2>";
@@ -97,19 +84,11 @@ try {
         // LINE ITEMS
         echo "<p>Line Items: <input type = \"submit\" class = \"button\" name = \"newLine\" value = \"New Item\" /> </p>";
         echo "<br><br>";
-        if(array_key_exists('newLine', $_POST))
-        {
-            GetOrderById();
-        }
 
         
         // NOTES
         echo "<p>Notes: <input type = \"submit\" class = \"button\" name = \"newNote\" value = \"New Note\" /></p>";
         echo "<br><br>";
-        if(array_key_exists('newNote', $_POST))
-        {
-            newNote();
-        }
 
 
 
@@ -121,26 +100,12 @@ try {
         echo "<input type=\"submit\" name=\"submitQuo\" value=\"Submit Quote\" />";
         echo "</form>";
 
-        $name = $_POST["name"];
-        $qid = $_POST["id"];
-        $email = $_POST["EMAIL"];
-        $price = $_POST["PRICE"];
-        $descript = $_POST["DESCRIPT"];
-        $statement = $_POST["STATEMENT"];
 
         // send data to database and print note
         if(isset($_POST["submitQuo"]))
         {
             echo "<br><br>";
             echo "<p>Quote Submitted</p>";
-
-            $query1 = "INSERT INTO SQUOTE(QID, OWNER, EMAIL, DESCRIPT) VALUES('$id', '$name', '$email', '$descript')";
-            $query2 = "INSERT INTO LINEITEM(QID, PRICE, DESCRIPT) VALUES('$id', '$price', '$descript')";
-            $query3 = "INSERT INTO NOTE(QID, STATEMENT) VALUES('$id', '$statement')";
-
-            $run1 = new PDO($pdo1, $query1);
-            $run2 = new PDO($pdo1, $query2);
-            $run3 = new PDO($pdo1, $query3);
 
         }
         
