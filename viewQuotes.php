@@ -36,10 +36,8 @@ try {
     echo "<h1>Quote System</h1>\n";
     echo "<h3>Unresolved Quotes:</h3>";
 
-    
+    display_quotes)();
 
-
-    
 
 
 
