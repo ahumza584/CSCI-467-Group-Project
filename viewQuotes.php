@@ -7,6 +7,11 @@
 // This page will fill the requirments of the second interface, this is where new quotes will go to. From here they can be edited or removed. This is also where
 // a discount can be applied for a second time. Notes on quotes can also be viewed and added. After all edits and discounts have been made, the quote is either left unresolved or sanctioned
 
+include 'dbman.php';
+include 'dbfunctions/php';
+include 'createQuote.php';
+incldue 'login.php';
+
 
 $username1 = "z1913636";    // zid
 $password1 = "2000May03";    // password to db
@@ -31,32 +36,11 @@ try {
     echo "<h1>Quote System</h1>\n";
     echo "<h3>Unresolved Quotes:</h3>";
 
-    // Function for draw table
-    function draw_table($rows){
-        echo "<table border=1 cellspacing=1>";
-        echo "<tr>";
-        foreach($rows[0] as $key => $item ) {
-            echo "<th>$key</th>";
-        }
-        echo "</tr>"; 
-        foreach($rows as $row){
-            echo "<tr>";
-            foreach($row as $key => $item ) {
-                echo "<td>$item</td>";
-            }
-            echo "</tr>";
-        }
-        echo "</table>\n";
+    
 
-
-    // Display quotes
-    $rs = $pdo1->query("SELECT * FROM SQUOTE;");
-    $rows = $rs->fetchAll(PDO::FETCH_ASSOC);
-    draw_table($rows);
 
     
 
-    
 
 
 }
