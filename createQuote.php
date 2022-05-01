@@ -5,7 +5,7 @@
 <?php
 
 include 'dbfunctions.php';
-include 'dbman.php'
+include 'dbman.php';
 
 $username1 = "z1913636";    // zid
 $password1 = "2000May03";    // password to db
