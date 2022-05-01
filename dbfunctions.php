@@ -10,9 +10,10 @@ include 'dblogin.php';
 
 /*
  * returns a table with indexes:
- * 0 -> Base Order info (['OwnerID'], ['Email'], ['Description'], ['Subtotal']
+ * 0 -> Base Order info (['QuoteId'],['OwnerID'], ['Email'], ['Description'], ['Subtotal']
  * 1 -> line items (['Charge'], ['Label'])
  * 2 -> notes (Raw text)
+ * 3 -> Discounts (['IsPercent'], ['Value'], ['Label])
  */
 function GetOrderById(int $QuoteId) {
     global $pdo;
@@ -24,7 +25,8 @@ function GetOrderById(int $QuoteId) {
 
     $QRow = $statement->fetch();
 
-    $Quote['OwnerID']     = $QRow['OWNER'];
+    $Quote['QuoteId']     = $QRow['QID'];
+    $Quote['OwnerId']     = $QRow['OWNER'];
     $Quote['Email']       = $QRow['EMAIL'];
     $Quote['Description'] = $QRow['DESCRIPT'];
 
@@ -63,17 +65,61 @@ function GetOrderById(int $QuoteId) {
 
     //  Get a list of the notes attached to this order ==========
     $sql = "select STATEMENT from NOTE where QID = :qid";
-
-    $statement = $pdo->prepare($sql);
-    $statement->execute(['qid' => $QuoteId]);
+    $argarray = ['qid' => $QuoteId];
+    $res = DB_doquery($sql, $argarray);
 
     $Comments = [];
-    foreach ($statement as $row){
+    foreach ($res as $row){
         $Comments[] = $row['STATEMENT'];     //Retrieve text
     }
 
-    $mstr = [$Quote, $litems, $Comments];
+    $sql = "select DESCRIPT, AMOUNT, PERCENTAGE from DISCOUNT where QID = :qid";
+    $res = DB_doquery($sql, $argarray);
+
+    $Discounts = [];
+    foreach ($res as $row) {
+        $drow['IsPercent'] = $row['PERCENTAGE'];
+        $drow['Value']     = $row['AMOUNT'];
+        $drow['Label']     = $row['DESCRIPT'];
+        $Discounts[] = $drow;
+    }
+
+
+    $mstr = [$Quote, $litems, $Comments, $Discounts];
     return $mstr;
+}
+
+/*
+ * Attempts to insert a value into the Quotes table
+ * Input takes same format as GetOrderById
+ * 0 -> Base Order info (['QuoteId'],['OwnerID'], ['Email'], ['Description'], ['Subtotal']
+ * 1 -> line items (['Charge'], ['Label'])
+ * 2 -> notes (Raw text)
+ * 3 -> Discounts (['IsPercent'], ['Value'], ['Label])
+ */
+function CreateQuote($owner, $email, $description="none given") {
+    $sql = "insert into SQUOTE (OWNER, EMAIL, DESCRIPT, STATUS) values (:oid, :email, :desc, 'PRELIM')";
+    DB_doquery($sql, ['oid' => $owner, 'email'=> $email, 'desc'=>$description]);
+}
+function ChangeQuoteStatus($QuoteId, $NewStat){
+
+}
+function AddLineitem($QuoteId, $Amount, $Label="none given") {
+    $sql = "insert into LINEITEM (QID, PRICE, DESCRIPT) values (:qid, :cost , :label)";
+    DB_doquery($sql, ['qid'=> $QuoteId, 'cost'=> $Amount, 'label'=>$Label]);
+}
+// note: haven't tested this one
+function compute_final_value($Quote) {
+    $base = $Quote[0]['Subtotal'];
+    $total = $base;
+    foreach ($Quote[3] as $discount) {
+        if ($discount['IsPercent']) {
+            $base -= $discount['Value'] * $total;
+        } else {
+            $base -= $discount['Value'];
+        }
+    }
+    return $total;
 }
 
 /*
@@ -148,6 +194,16 @@ function get_all_associate_ids() {
     $mstr = [];
     foreach ($res as $i) {
         $mstr[] = $i['ID'];
+    }
+    return $mstr;
+}
+
+function get_all_quote_ids() {
+    $sql = "select QID from SQUOTE";
+    $res = DB_doquery($sql, []);
+    $mstr = [];
+    foreach ($res as $i) {
+        $mstr[] = $i['QID'];
     }
     return $mstr;
 }

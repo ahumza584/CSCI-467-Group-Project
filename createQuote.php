@@ -5,6 +5,7 @@
 <?php
 
 include 'dbfunctions.php';
+include 'dbman.php'
 
 $username1 = "z1913636";    // zid
 $password1 = "2000May03";    // password to db
@@ -77,13 +78,14 @@ try {
         // CUSTOMER EMAIL FORM
         echo "<form action=\"\" method=\"POST\">";
         echo "<h3>Quote Information</h3>";
-        echo "<input type = \"text\" name = \"EMAIL\" placeholder = \"Enter Customer Email\" />";
+        echo "<input type = \"text\" name = \"email\" placeholder = \"Enter Customer Email\" />";
         echo "<br><br>";
         
 
         // LINE ITEMS
         echo "<p>Line Items: <input type = \"submit\" class = \"button\" name = \"newLine\" value = \"New Item\" /> </p>";
         echo "<br><br>";
+        
 
         
         // NOTES
