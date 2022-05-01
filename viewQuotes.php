@@ -36,9 +36,28 @@ try {
     echo "<h1>Quote System</h1>\n";
     echo "<h3>Unresolved Quotes:</h3>";
 
-    display_quotes();
+    function draw_table($rows){
+        echo "<table border=1 cellspacing=1>";
+        echo "<tr>";
+        foreach($rows[0] as $key => $item ) {
+            echo "<th>$key</th>";
+        }
+        echo "</tr>"; 
+        foreach($rows as $row){
+            echo "<tr>";
+            foreach($row as $key => $item ) {
+                echo "<td>$item</td>";
+            }
+            echo "</tr>";
+        }
+        echo "</table>\n";
+    }
 
-
+    // Display quotes
+    $rs = $pdo1->query("SELECT * FROM SQUOTE;");
+    $rows = $rs->fetchAll(PDO::FETCH_ASSOC);
+    draw_table($rows);
+    
 
 
 }
