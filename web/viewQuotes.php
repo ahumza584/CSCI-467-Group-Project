@@ -16,20 +16,6 @@ $password2 = "student";
 session_start();
 error_reporting(E_ALL);
 
-try {
-    // Connection to Database
-    $dsn1 = "mysql:host=courses;dbname=z1913636";      // <----- change to your zid
-	$pdo1 = new PDO($dsn1, $username1, $password1);
-	$pdo1->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-
-    // Connection to Legacy Database
-    $dsn2 = "mysql:host=blitz.cs.niu.edu;dbname=csci467";
-	$pdo2 = new PDO($dsn2, $username2, $password2);
-	$pdo2->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-
-    //header
-    echo "<h1>Quote System</h1>\n";
-    echo "<h3>Unresolved Quotes:</h3>";
 
     // Function for draw table
     function draw_table($rows){
@@ -49,22 +35,7 @@ try {
         echo "</table>\n";
 
 
-    // Display quotes
-    $rs = $pdo1->query("SELECT * FROM SQUOTE;");
-    $rows = $rs->fetchAll(PDO::FETCH_ASSOC);
-    draw_table($rows);
 
-    
-
-    
-
-
-}
-
-
-catch(PDOexception $e) { //handle that expection
-	echo "Connection to database failed: " . $e->getMessage();
-}
 
 
 ?>

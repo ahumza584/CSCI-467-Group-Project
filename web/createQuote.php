@@ -4,20 +4,17 @@
 <body>
 <?php
 
-$username1 = "z1913636";    // zid
-$password1 = "2000May03";    // password to db
+include_once 'activate_debug.php';
+include_once 'dblogin.php';
+
+$pdo1 = $pdo;           // alias pdo as pdo1
+
 $username2 = "student";
 $password2 = "student";
 
 session_start();
-error_reporting(E_ALL);
 
 try {
-    // Connection to Database
-    $dsn1 = "mysql:host=courses;dbname=z1913636";      // <----- change to your zid
-	$pdo1 = new PDO($dsn1, $username1, $password1);
-	$pdo1->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-
     // Connection to Legacy Database
     $dsn2 = "mysql:host=blitz.cs.niu.edu;dbname=csci467";
 	$pdo2 = new PDO($dsn2, $username2, $password2);

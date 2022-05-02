@@ -9,12 +9,12 @@ VALUES
 ;
 
 #example order 1
-INSERT INTO SQUOTE (QID, OWNER, EMAIL, DESCRIPT, STATUS)
+INSERT INTO SQUOTE (QID, OWNER, EMAIL, DESCRIPT, STATUS, CUSTOMERID)
 VALUES
-(1, 1, 'Zip2@CMAIL.COM', 'Various internal Service', 'PRELIM'),
-(2, 2, 'Getsmrt12@cc.co', 'assistance with primary project', 'FINAL'),
-(3, 1, 'silD@yahoo.corp', 'Service on project 9', 'FINAL'),
-(4, 3, 'bigone@cmail.co', 'A big one', 'SANCT')
+(1, 1, 'Zip2@CMAIL.COM', 'Various internal Service', 'PRELIM', 0),
+(2, 2, 'Getsmrt12@cc.co', 'assistance with primary project', 'FINAL', 1),
+(3, 1, 'silD@yahoo.corp', 'Service on project 9', 'FINAL', 2),
+(4, 3, 'bigone@cmail.co', 'A big one', 'SANCT', 3)
 ;
 
 insert into LINEITEM (QID, PRICE, DESCRIPT)

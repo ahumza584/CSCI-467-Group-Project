@@ -1,8 +1,8 @@
 <html><head><title>Quote System Login</title></head>
 <?php
 
-    include 'activate_debug.php';
-    include 'dblogin.php';
+    include_once 'activate_debug.php';
+    include_once 'dblogin.php';
 
     if(array_key_exists('login',$_POST) {
         if(empty($_POST['id']) || empty($_POST['password']) {

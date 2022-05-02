@@ -15,4 +15,21 @@ try {
     echo "Database connection failed, " . $e;
     exit();
 }
+
+
+$username2 = "student";
+$password2 = "student";
+
+try {
+    $dsn = "mysql:host=blitz.cs.niu.edu;dbname=csci467"
+    $extpdo = new PDO($dsn, $username2, $password2);
+    $extpdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOexception $e) {
+    echo "Database connection fialed, " . $e;
+    exit();
+}
+
+//Destroy login info after done using it
+unset($uname, $pass, $dbname, $username2, $password2);
+
     ?>

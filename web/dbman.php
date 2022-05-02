@@ -1,6 +1,6 @@
 <?php
-include 'dbfunctions.php';
-include 'miscfuncs.php';
+include_once 'dbfunctions.php';
+include_once 'miscfuncs.php';
 print_html_header();
 ?>
 <h1> Database debugger </h1>
@@ -155,6 +155,15 @@ function display_quotes($qids = null) {
             echo("</table>");
         }
         echo("</td>");
+
+        echo("<td>")
+        echo("
+            <form action=\"QuoteEdit.php\" method=\"post\">
+            <input name=\"ORDERNUMBER\" value=\"" . $quote[0]['QuoteId'] . "\">
+            <input type=\"submit\" value=\"Edit\">
+            </form>
+        ");
+        echo("</td>")
 
         echo("</tr>"); //End of Quote info
     }

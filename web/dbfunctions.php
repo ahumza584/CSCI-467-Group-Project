@@ -1,6 +1,6 @@
 <?php
-include 'activate_debug.php';
-include 'dblogin.php';
+include_once 'activate_debug.php';
+include_once 'dblogin.php';
 
 /*
  * sql interaction functions
@@ -224,7 +224,14 @@ function get_orders_for_associate(int $aid) {
  *  [1] => Privilege level for associate
  */
 function attempt_login($uname, $pass) {
-
+    $sql = "select ID from ASSOCIATE where UNAME = :uname PASSWD = :passwrd";
+    $res = DB_doquery($sql, ['uname' => $uname, 'passwrd' => $pass]);
+    if (empty($res))
+    {
+        return -1
+    } else {
+        return $res[0]['ID']
+    }
 }
 
 ?>
