@@ -102,7 +102,7 @@ function CreateQuote($owner, $email, $description="none given") {
     DB_doquery($sql, ['oid' => $owner, 'email'=> $email, 'desc'=>$description]);
 }
 function ChangeQuoteStatus($QuoteId, $NewStat){
-
+    $sql = "update SQUOTE ";
 }
 function AddLineitem($QuoteId, $Amount, $Label="none given") {
     $sql = "insert into LINEITEM (QID, PRICE, DESCRIPT) values (:qid, :cost , :label)";
