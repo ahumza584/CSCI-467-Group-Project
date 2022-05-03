@@ -3,12 +3,12 @@
     session_start();
     error_reporting(E_ALL);
 
-    $username = 'z1913636';    //  zid
-    $password = '2000May03';    //  password to db
+    $username = '';    //  zid
+    $password = '';    //  password to db
 
     try{
         //connection
-        $dsn = "mysql:host=courses;dbname=z193636";  // <----- change to your zid
+        $dsn = "mysql:host=courses;dbname=";  // <----- change to your zid
         $pdo = new PDO($dsn, $username, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_WARNING);
 
