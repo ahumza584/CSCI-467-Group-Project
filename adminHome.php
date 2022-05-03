@@ -15,13 +15,9 @@
     session_start();
     error_reporting(E_ALL);
 
-    include 'secrets.php';
+    include 'dblogin.php';
    
     try{
-        //connection
-        $dsn = "mysql:host=courses;dbname=z1940447";
-        $pdo = new PDO($dsn, $username, $password);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_WARNING);
 
       if(isset($_POST["assoc"]))  
       {  
