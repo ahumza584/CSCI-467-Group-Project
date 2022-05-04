@@ -10,17 +10,12 @@
 include 'formatters.php';
 include 'dblogin.php';
 
-$username2 = "student";
-$password2 = "student";
 
 
 try {
     // Connection to Database
 
-    // Connection to Legacy Database
-    $dsn2 = "mysql:host=blitz.cs.niu.edu;dbname=csci467";
-	$pdo2 = new PDO($dsn2, $username2, $password2);
-	$pdo2->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+    // Connection to Legacy Databas
 
     //header
     echo "<h1>Quote System</h1>\n";
