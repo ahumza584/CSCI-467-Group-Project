@@ -11,7 +11,7 @@
   include 'dblogin.php';
   error_reporting(E_ALL);
 
-  echo "<h1>Edit Quote</h1>"
+  echo "<h1>Edit Quote</h1>";
   $Quoteid = $_GET['QID'];
  ?>
 
