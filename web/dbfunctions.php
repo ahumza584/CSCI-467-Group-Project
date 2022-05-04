@@ -10,7 +10,8 @@ include_once 'dblogin.php';
 
 /*
  * returns a table with indexes:
- * 0 -> Base Order info (['QuoteId'],['OwnerID'], ['Email'], ['Description'], ['Subtotal']
+ * 0 -> Base Order info (['QuoteId'],['OwnerId'], ['Email'], ['Description'], ['Subtotal']
+        ['LastUpdate'] ['Created'] ['CustomerID'], [DiscountTotal]
  * 1 -> line items (['Charge'], ['Label'], ['Id'])
  * 2 -> notes (['Text'], ['Id'])
  * 3 -> Discounts (['IsPercent'], ['Value'], ['Label], ['Id'])
@@ -29,6 +30,9 @@ function GetOrderById(int $QuoteId) {
     $Quote['OwnerId']     = $QRow['OWNER'];
     $Quote['Email']       = $QRow['EMAIL'];
     $Quote['Description'] = $QRow['DESCRIPT'];
+    $Quote['LastUpdate']  = $QRow['UPDATED'];
+    $Quote['Created']  = $QRow['CREATED'];
+    $Quote['CustomerId']  = $QRow['CUSTOMERID'];
 
     switch ($QRow['STATUS']) {
         case "PRELIM":
@@ -46,7 +50,7 @@ function GetOrderById(int $QuoteId) {
     }
 
     //  Get a list of line items ================================
-    $sql = "select PRICE, DESCRIPT from LINEITEM where QID = :qid";
+    $sql = "select PRICE, DESCRIPT, ID from LINEITEM where QID = :qid";
 
     $statement = $pdo->prepare($sql);
     $statement->execute(['qid' => $QuoteId]);
@@ -57,11 +61,13 @@ function GetOrderById(int $QuoteId) {
         $t = [];
         $t['Charge'] = $row['PRICE'];      //Get rows into a more
         $t['Label'] = $row['DESCRIPT'];    //standard naming scheme
+        $t['Id'] = $row['ID'];
 
         $Subtotal += $row['PRICE']; //Add to subtotal
         $litems[] = $t;                     //Append to array
     }
-
+    $Quote['Subtotal'] = $Subtotal;
+    $Quote['DiscountTotal'] = $Subtotal;
 
     //  Get a list of the notes attached to this order ==========
     $sql = "select STATEMENT, ID from NOTE where QID = :qid";
@@ -73,7 +79,7 @@ function GetOrderById(int $QuoteId) {
         $Comments[] = [ 'Text' => $row['STATEMENT'], 'Id' => $row['ID']];     //Retrieve text
     }
 
-    $sql = "select DESCRIPT, AMOUNT, PERCENTAGE from DISCOUNT where QID = :qid";
+    $sql = "select DESCRIPT, AMOUNT, PERCENTAGE, ID from DISCOUNT where QID = :qid";
     $res = DB_doquery($sql, $argarray);
 
     $Discounts = [];
@@ -82,6 +88,13 @@ function GetOrderById(int $QuoteId) {
         $drow['Value']     = $row['AMOUNT'];
         $drow['Label']     = $row['DESCRIPT'];
         $Discounts[] = $drow;
+
+        if ($row['PERCENTAGE']) {
+          $Quote['DiscountTotal'] -= ($Quote['Subtotal'] * $row['AMOUNT']);
+        }
+        else {
+          $Quote['DiscountTotal'] -= ($row['AMOUNT']);
+        }
     }
 
 
@@ -146,7 +159,7 @@ function GetAssocInfo(int $AssocId) {
     return $mstr;
 }
 
-function DB_doquery($sql, $varArray){
+function DB_doquery($sql, $varArray = array()){
     global $pdo;
     $statement = $pdo->prepare($sql);
     if(isset($varArray))

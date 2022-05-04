@@ -1,4 +1,4 @@
- 
+
 
  table, th, td {
      border: 1px solid black;
@@ -12,3 +12,9 @@
  .InnerTable {
   min-width:100%;
  }
+
+div {
+  border: 1px solid black;
+  padding: 3px;
+  border-radius: 5px;
+}

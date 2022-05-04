@@ -8,17 +8,16 @@ include_once 'activate_debug.php';
 include_once 'dblogin.php';
 
 $pdo1 = $pdo;           // alias pdo as pdo1
-
-$username2 = "student";
-$password2 = "student";
+$pdo2 = $extpdo;
 
 session_start();
 
 try {
-    // Connection to Legacy Database
-    $dsn2 = "mysql:host=blitz.cs.niu.edu;dbname=csci467";
-	$pdo2 = new PDO($dsn2, $username2, $password2);
-	$pdo2->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+
+    if (array_key_exists('NewLineItem', $_POST)) {
+      $_SESSION['']
+    }
+
 
     // Header
     echo "<h1>Quote System</h1>\n";
@@ -31,18 +30,18 @@ try {
     echo "<h3>Create new quote for Customer:</h3>";
 
     // select customer that needs new quote
-    echo "<form action=\"\" method=\"GET\">";
-	echo "<select name=\"name\">";
+  echo "<form action=\"\" method=\"GET\">";
+	echo "<select name=\"CustomerID\">";
 
     // get data on customer from LEGACY Database
-    $customers = $pdo2->query("SELECT * FROM customers;");
-	$cust = $customers->fetchALL(PDO::FETCH_ASSOC);
+    $customerStatement = $pdo2->query("SELECT * FROM customers;");
+	  $customerList = $customers->fetchALL(PDO::FETCH_ASSOC);
 
 
     // Allows to select from a list of customers from legacy
-    foreach($cust as $cus){
+    foreach($customerList as $customer){
         echo "<tr>\n";
-        echo "<option value=$cus[id]>" . $cus["name"] . " (ID = " . $cus["id"] . ") </option>";
+        echo "<option value=$customer[id]>" . $customer["name"] . " (ID = " . $customer["id"] . ") </option>";
     }
 
     // submit button to choose customer
@@ -52,16 +51,17 @@ try {
 
 
     // after choosing customer, enter information about new quote
-    if(isset($_GET["name"])){
-        $selectedname = $pdo2->prepare('SELECT * FROM customers WHERE id = ?;');
-        $selectedname->execute(array($_GET['name']));
-        $singlename = $selectedname->fetchALL(PDO::FETCH_ASSOC);
+    if(isset($_GET["CustomerID"])){
+        $RetrieveCustomerStmnt = $pdo2->prepare('SELECT * FROM customers WHERE id = ?;');
+        $RetrieveCustomerStmnt -> execute(array($_GET['name']));
+        $singlename = $RetrieveCustomerStmnt->fetchALL(PDO::FETCH_ASSOC);
 
-        function newLine()
+        function newLine($DefPrice, $DefText)
         {
-            echo "<input type = \"textarea\" name = \"PRICE\" />";
-            echo "<input type = \"textarea\" name = \"DESCRIPT\" />";
-            echo "<br><br>";
+            echo "<tr><td>"
+            echo "<input type = \"textarea\" value=". $DefPrice ." name = \"PRICE\" />";
+            echo "<input type = \"textarea\" name = \"DESCRIPT\" value=". $DefPrice ."/>";
+            echo "</td></tr>"
         }
 
         function newNote()
@@ -72,7 +72,7 @@ try {
 
 
         // CUSTOMER NAME HEADER
-        echo "<h2>";
+        echo "<h2> Order for ";
         $thename = $_GET["name"];
         foreach($singlename as $single){
             echo "$single[name]";
@@ -91,17 +91,24 @@ try {
 
         // LINE ITEMS
         echo "<p>Line Items: <input type = \"submit\" class = \"button\" name = \"newLine\" value = \"New Item\" /> </p>";
-        echo "<br><br>";
-        if(array_key_exists('newLine', $_POST))
+        echo "<table>"
+        echo "<tr>"
+            echo "<th> Price </th>";
+            echo "<th> Description </th>";
+        echo "</tr>"
+        if(array_key_exists($_SESSION['newLines'], $_POST))
         {
-            newLine();
+              foreach ($_SESSION['NewLines']) {
+                newLine($_SESSION['NewLines']['Price'], $_SESSION['NewLines']['Text']);
+              }
         }
+        echo "</table>"
 
 
         // NOTES
         echo "<p>Notes: <input type = \"submit\" class = \"button\" name = \"newNote\" value = \"New Note\" /></p>";
         echo "<br><br>";
-        if(array_key_exists('newNote', $_POST))
+        if(array_key_exists('newNotes', $_POST))
         {
             newNote();
         }
