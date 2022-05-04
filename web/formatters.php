@@ -35,10 +35,10 @@ function display_associates($assocIds = null) {
 
 function generate_quote_edit($qid) {
     $quote = GetOrderById($qid);
-    echo "<form>"
+    echo "<form>";
 
 
-    echo "</form>"
+    echo "</form>";
 }
 
 function display_quotes($qids = null) {
@@ -117,26 +117,27 @@ function display_quotes($qids = null) {
         {
             echo("<table class=\"InnerTable\">");
             foreach($quote[2] as $Comment) {
-             echo ("<tr><td>" . $Comment . "</td></tr>");
+             echo ("<tr><td>" . $Comment['Text'] . "</td></tr>");
             }
             echo("</table>");
         }
         echo("</td>");
 
-        echo("<td>")
-        echo("
-            <form action=\"QuoteEdit.php\" method=\"post\">
-            <input name=\"ORDERNUMBER\" value=\"" . $quote[0]['QuoteId'] . "\">
-            <input type=\"submit\" value=\"Edit\">
-            </form>
-        ");
-        echo("</td>")
+        echo("<td>");
+        QuoteEditButton($quote[0]['QuoteId']);
+        echo("</td>");
 
         echo("</tr>"); //End of Quote info
     }
 
     echo("</table>"); //End of overal table
 
+}
+
+function QuoteEditButton($qid) {
+  echo "<form action =\"QuoteDetails.php\" method=\"post\">";
+  echo "<input type=\"submit\" name=\"TargetQuote\" value=\"" . $qid . "\" text=\"Edit\" method=\"post\">";
+  echo "</form>";
 }
 
 ?>

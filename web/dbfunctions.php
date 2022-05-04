@@ -11,9 +11,9 @@ include_once 'dblogin.php';
 /*
  * returns a table with indexes:
  * 0 -> Base Order info (['QuoteId'],['OwnerID'], ['Email'], ['Description'], ['Subtotal']
- * 1 -> line items (['Charge'], ['Label'])
- * 2 -> notes (Raw text)
- * 3 -> Discounts (['IsPercent'], ['Value'], ['Label])
+ * 1 -> line items (['Charge'], ['Label'], ['Id'])
+ * 2 -> notes (['Text'], ['Id'])
+ * 3 -> Discounts (['IsPercent'], ['Value'], ['Label], ['Id'])
  */
 function GetOrderById(int $QuoteId) {
     global $pdo;
@@ -64,13 +64,13 @@ function GetOrderById(int $QuoteId) {
 
 
     //  Get a list of the notes attached to this order ==========
-    $sql = "select STATEMENT from NOTE where QID = :qid";
+    $sql = "select STATEMENT, ID from NOTE where QID = :qid";
     $argarray = ['qid' => $QuoteId];
     $res = DB_doquery($sql, $argarray);
 
     $Comments = [];
     foreach ($res as $row){
-        $Comments[] = $row['STATEMENT'];     //Retrieve text
+        $Comments[] = [ 'Text' => $row['STATEMENT'], 'Id' => $row['ID']];     //Retrieve text
     }
 
     $sql = "select DESCRIPT, AMOUNT, PERCENTAGE from DISCOUNT where QID = :qid";
@@ -224,16 +224,16 @@ function get_orders_for_associate(int $aid) {
  *  [1] => Privilege level for associate
  */
 function attempt_login($uname, $pass) {
-    $sql = "select ID from ASSOCIATE where UNAME = :uname PASSWD = :passwrd";
+    $sql = "select ID from ASSOCIATE where UNAME = ':uname' and PASSWD = ':passwrd'";
     $res = DB_doquery($sql, ['uname' => $uname, 'passwrd' => $pass]);
     if (empty($res))
     {
-        return -1
+        return -1;
     } else {
-        return $res[0]['ID']
+        return $res[0]['ID'];
     }
 }
 
-?>
+//<a href="dbman.php">go here</a>
 
-<a href="dbman.php">go here</a>
+?>

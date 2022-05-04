@@ -21,7 +21,7 @@ $username2 = "student";
 $password2 = "student";
 
 try {
-    $dsn = "mysql:host=blitz.cs.niu.edu;dbname=csci467"
+    $dsn = "mysql:host=blitz.cs.niu.edu;dbname=csci467";
     $extpdo = new PDO($dsn, $username2, $password2);
     $extpdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOexception $e) {

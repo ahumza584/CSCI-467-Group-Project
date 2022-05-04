@@ -69,7 +69,7 @@ try {
             echo "<input type = \"textarea\" name = \"STATEMENT\" />";
             echo "<br><br>";
         }
-    
+
 
         // CUSTOMER NAME HEADER
         echo "<h2>";
@@ -87,7 +87,7 @@ try {
         echo "<h3>Quote Information</h3>";
         echo "<input type = \"text\" name = \"EMAIL\" placeholder = \"Enter Customer Email\" />";
         echo "<br><br>";
-        
+
 
         // LINE ITEMS
         echo "<p>Line Items: <input type = \"submit\" class = \"button\" name = \"newLine\" value = \"New Item\" /> </p>";
@@ -97,7 +97,7 @@ try {
             newLine();
         }
 
-        
+
         // NOTES
         echo "<p>Notes: <input type = \"submit\" class = \"button\" name = \"newNote\" value = \"New Note\" /></p>";
         echo "<br><br>";
@@ -137,10 +137,10 @@ try {
             $run2 = new PDO($pdo1, $query2);
             $run3 = new PDO($pdo1, $query3);
 
-        
+
         }
-        
-        
+
+
     }
 
 
@@ -154,4 +154,3 @@ catch(PDOexception $e) { //handle that expection
 ?>
 </body>
 </html>
-

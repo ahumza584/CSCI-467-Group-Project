@@ -1,11 +1,11 @@
 #Example data 1
 INSERT INTO ASSOCIATE (ID, NAME, UNAME, PASSWD, ADDRESS, PRIVLEVEL)
 VALUES
-(1, 'ROGER'    , 'Rog21', 'ROGER\'S PW' , 'ROGER\'S ADDR', 0),
-(2, 'CATHERINE', 'Cat22', 'Cathy\'S PW' , 'Cathy\'S ADDR', 0),
-(3, 'Mike'     , 'Mik23', 'Mike\'S PW'  , 'Mike\'S ADDR' , 0),
-(4, 'David'    , 'Dav24', 'David\'S PW' , 'DAVID\'S ADDR', 5),
-(5, 'LORA'     , 'Lor25', 'Lora\'S PW'  , 'LORA\'S ADDR', 0)
+(1, 'ROGER'    , 'Rog21', 'rbp12' , 'ROGER\'S ADDR', 0),
+(2, 'CATHERINE', 'Cat22', 'cbp12' , 'Cathy\'S ADDR', 0),
+(3, 'Mike'     , 'Mik23', 'mbp12'  , 'Mike\'S ADDR' , 0),
+(4, 'David'    , 'Dav24', 'dbp12' , 'DAVID\'S ADDR', 5),
+(5, 'LORA'     , 'Lor25', 'lbp12'  , 'LORA\'S ADDR', 0)
 ;
 
 #example order 1
