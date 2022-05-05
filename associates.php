@@ -1,8 +1,6 @@
 <html><head><title>Associates Info</title></head>
 
     <!--    
-        Maria Sofia
-        Z1940447
         Quote System
 
         This is the associates page for the admin interface.
