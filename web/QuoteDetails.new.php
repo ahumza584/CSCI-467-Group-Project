@@ -9,7 +9,7 @@ include_once 'activate_debug.php';
 include_once 'dbfunctions.php';
 include_once 'miscfuncs.php';
 
-print_html_header();
+print_html_header("Quote Viewer and Editor");
 
 
 // ============== setup ================== ////
