@@ -5,10 +5,8 @@
 
     include 'dblogin.php';
    
-    //$ID=$_GET['id'];
 
     try{
-        //echo ' <a href="associates.php">Go Back</a>'; //goes back to associates page if this is clicked
         
         if(isset($_POST["yes"])){
             $rs = $pdo->prepare("DELETE FROM ASSOCIATE
