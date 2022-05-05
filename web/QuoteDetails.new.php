@@ -1,5 +1,10 @@
 <?php
 
+/*
+  Quote Details viewer page
+  Joshua Sulouff
+*/
+
 include_once 'activate_debug.php';
 include_once 'dbfunctions.php';
 include_once 'miscfuncs.php';
