@@ -10,10 +10,10 @@ print_html_header();
 // ============== setup ================== //
 
 session_start();
-
+echo  $_SESSION['UID'] . "<-- that one <br>";
 function NewWorkQuote() {
   $mstr = [];
-  $mstr[0] = ['QuoteId' => -1, 'OwnerID' => $_SESSION['UID'], 'Email' => "", 'Description' => ""];
+  $mstr[0] = ['QuoteId' => -1, 'OwnerId' => $_SESSION['UID'], 'Email' => "", 'Description' => "", 'Subtotal' => 0.0, 'DiscountTotal' => 0.0, 'Status' => "Preliminary"];
   $mstr[1] = [];
   $mstr[2] = [];
   $mstr[3] = [];
@@ -71,6 +71,7 @@ function GetCustomers() {
 // generates a dropdown box for selecting customers
 // Uses $Name as the field name or default
 function Generate_Customer_Choice($label ,$Name="CustomerId") {
+  global $QuoteInfo;
   //Generate selected first
   $Customers = GetCustomers();
   ////print_r($Customers);
@@ -79,7 +80,7 @@ function Generate_Customer_Choice($label ,$Name="CustomerId") {
   echo "<select id=\"" . $label . "\" name=\"" . $Name . "\">";
 
   //If there is a working customer
-  if (array_key_exists($QuoteInfo['CustomerId'])) {
+  if (array_key_exists('CustomerId', $QuoteInfo)) {
     foreach ($Customers as $Customer) {
       echo "<option value=\"" . $Customer['Id'] . "\"";
 
@@ -87,7 +88,7 @@ function Generate_Customer_Choice($label ,$Name="CustomerId") {
         echo " selected ";
       }
 
-      echo ">" . $Customer['Name'] . "<>";
+      echo ">" . $Customer['Name'] . "</option>";
     }
   }
   else {
@@ -109,8 +110,12 @@ function Generate_Destroy_Link($kind, $id) {
   return "<a href=\"QuoteAction.php?Destroy" . $kind ."=" . $id . "&TargetQuote=" . $TargetQuote . "\">Delete</a>";
 }
 
+if (array_key_exists('reply',$_GET)) {
+  echo "Reply: " . $_GET['reply'];
+}
+
 echo "<h1> Quote editing</h1>";
-echo "<form action=\"QuoteAction.php\" method=\"post\">";
+echo "<form action=\"QuoteAction.php?TargetQuote=". $TargetQuote ."\" method=\"post\">";
   echo "Quote #" . $QuoteInfo['QuoteId'] . "<br>";
   echo "Subtotal: $" . $QuoteInfo['Subtotal'] . "<br>";
   echo "Subtotal (with discounts): $" . $QuoteInfo['DiscountTotal'] . "<br>";
@@ -182,9 +187,9 @@ echo "<form action=\"QuoteAction.php\" method=\"post\">";
 
 
     echo "</table>";
-    echo "<div> New line item <br>";
-    Generate_Textbox("Description: ", "NewLineItemDescript", ""); echo "<br>";
-    Generate_Textbox("Price: ", "NewLineItemPrice", ""); echo "<br>";
+    echo "<div> New discount <br>";
+    Generate_Textbox("Description: ", "NewDiscountDescript", ""); echo "<br>";
+    Generate_Textbox("Price: ", "NewDiscountAmount", ""); echo "<br>";
     echo "</div>";
   }
   //disable if not owned

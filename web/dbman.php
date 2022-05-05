@@ -44,6 +44,7 @@ if(array_key_exists("USwap", $_POST)){
 <a href="viewQuotes.php">Quote viewing dialog</a> <br>
 <a href="login.php">log out</a> <br>
 <a href="dbman.php?DestroySession=a">Destroy session</a> <br>
+<a href="QuoteDetails.new.php">New Quote</a> <br>
 
 <?php
 
