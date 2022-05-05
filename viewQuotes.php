@@ -12,9 +12,6 @@ include 'dblogin.php';
 
 
 try {
-    // Connection to Database
-
-    // Connection to Legacy Database
 
     //header
     echo "<h1>Quote System</h1>\n";
@@ -22,12 +19,12 @@ try {
     // Back to login
     echo "<a href='login.php'>";
 	echo "<input type=\"submit\" name=\"submit\" value=\"Back to Login\" />";
-    echo "<br><br>";
+    echo "</a><br><br>";
 
     //New Quote
     echo "<a href='QuoteDetails.new.php'>";
 	echo "<input type=\"submit\" name=\"submit\" value=\"New Quote\" />";
-    echo "<br>";
+    echo "</a><br>";
 
     echo "<h3>Existing Quotes:</h3>";
 
@@ -44,6 +41,7 @@ try {
             <th> Email </th>
             <th> Description </th>
             <th> Status </th>
+            <th> Date Created </th>
             <th> Line Items </th>
             <th> Discounts </th>
             <th> Comments </th>
@@ -58,6 +56,8 @@ try {
             echo ("<td>" . $quote[0]['Email'] . "</td>");
             echo ("<td>" . $quote[0]['Description'] . "</td>");
             echo ("<td>" . $quote[0]['Status'] . "</td>");
+            echo ("<td>" . $quote[0]['Created'] . "</td>");
+
     
             //Echo all line items in a table
             echo ("<td>");
@@ -114,7 +114,12 @@ try {
             echo("</td>");
     
             echo("<td>");
-              echo "<a href=\"QuoteDetails.new.php?TargetQuote=" . $quote[0]['QuoteId'] . "\">Edit</a>";
+              echo "<a href=\"QuoteDetails.new.php?TargetQuote= " . $quote[0]['QuoteId'] . "\">";
+              echo "<input type=\"submit\" name=\"submitEdit\" value=\"Edit\" />";
+              echo "</a>";
+              echo "<a href=\" removeQuote.php?TargetQuote= " . $quote[0]['QuoteId'] . "\">";
+              echo "<input type=\"submit\" name=\"submitEdit\" value=\"Remove\" />";
+              echo "</a>";
             echo("</td>");
     
             echo("</tr>"); //End of Quote info
