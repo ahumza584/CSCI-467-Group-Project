@@ -144,6 +144,7 @@ echo '<a href="searchquotes.php"> Return to quote listing </a> <br>';
 echo "<h1> Quote editing</h1>";
 echo "<form action=\"QuoteAction.php?TargetQuote=". $TargetQuote ."\" method=\"post\">";
   echo "Quote #" . $QuoteInfo['QuoteId'] . "<br>";
+  echo "Status: " . $QuoteInfo['Status'] . "<br>";
   echo "Subtotal: $" . $QuoteInfo['Subtotal'] . "<br>";
   echo "Subtotal (with discounts): $" . $QuoteInfo['DiscountTotal'] . "<br>";
   echo "<div>";
