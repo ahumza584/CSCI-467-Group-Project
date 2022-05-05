@@ -1,9 +1,7 @@
 
 <html><head><title>Quote System Login</title></head>
 
-    <!--    
-        Maria Sofia
-        Z1940447
+    <!--
         Quote System
 
         This is the home page for the admin interface.
@@ -26,7 +24,7 @@
 
       if(isset($_POST["quotes"]))  
       {  
-        header("location:quotes.php"); 
+        header("location:searchQuotes.php"); 
       }
     
     }
