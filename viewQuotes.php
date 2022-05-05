@@ -18,6 +18,17 @@ try {
 
     //header
     echo "<h1>Quote System</h1>\n";
+
+    // Back to login
+    echo "<a href='login.php'>";
+	echo "<input type=\"submit\" name=\"submit\" value=\"Back to Login\" />";
+    echo "<br><br>";
+
+    //New Quote
+    echo "<a href='QuoteDetails.new.php'>";
+	echo "<input type=\"submit\" name=\"submit\" value=\"New Quote\" />";
+    echo "<br>";
+
     echo "<h3>Existing Quotes:</h3>";
 
     function display_quotes_with_edit_button($qids = null) {
@@ -25,7 +36,7 @@ try {
             $qids = get_all_quote_ids();
         }
         echo("
-        <h2> Quotes </h2>
+        <h2> Existing Quotes Quotes </h2>
         <table>
             <tr>
             <th> ID </th>
