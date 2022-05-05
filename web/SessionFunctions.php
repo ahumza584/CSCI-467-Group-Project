@@ -1,5 +1,11 @@
 <?php
 
+/*
+  Session related functions
+  I don't remember if this actually used
+  Joshua Sulouff Z1867688
+*/
+
 function IsAdmin() : bool {
   $sql = "select ID from ASSOCIATE where ID = :id and PRIVLEVEL = 5"
   $res = DB_doquery($sql, ['id' => $_SESSION['UID']]);

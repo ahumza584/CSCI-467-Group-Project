@@ -7,6 +7,8 @@ include_once 'dblogin.php';
  * - Joshua Sulouff Z1867688
  */
 
+define('IGNORE_OWNERSHIP', 1);
+define('ALLOW_ANON_EDITING', 0);
 
 /*
  * returns a table with indexes:
@@ -229,6 +231,56 @@ function attempt_login($uname, $pass) {
         return $res[0]['ID'];
     }
 }
+
+function GetPrivLevel(int $uid) : int {
+  $a = GetAssocInfo($uid);
+  return $a['AuthLevel'];
+}
+
+function IsAdjuster(int $uid) : bool {
+  $a = GetAssocInfo($uid);
+  return ($a['AuthLevel'] == 3);
+}
+
+function IsAdmin(int $uid) : bool {
+  $a = GetAssocInfo($uid);
+  return ($a['AuthLevel'] == 5);
+}
+
+session_start();
+
+function NewWorkQuote() {
+  $mstr = [];
+  $mstr[0] = ['QuoteId' => -1, 'OwnerId' => $_SESSION['UID'], 'Email' => "", 'Description' => "", 'Subtotal' => 0.0, 'DiscountTotal' => 0.0, 'Status' => "Preliminary"];
+  $mstr[1] = [];
+  $mstr[2] = [];
+  $mstr[3] = [];
+
+  return $mstr;
+}
+
+function LoadWorkQuote(int $qid) {
+  $Quote = GetOrderById($qid);
+
+  return $Quote;
+}
+
+if (array_key_exists('TargetQuote', $_GET)) {
+  $WorkQuote = LoadWorkQuote($_GET['TargetQuote']);
+  $TargetQuote = intval($_GET['TargetQuote']);
+}
+else //New Quote///
+{
+  $WorkQuote = NewWorkQuote();
+  $TargetQuote = -1;
+}
+
+// Set reference for readability
+$QuoteInfo =     &$WorkQuote[0];
+$LineItems =     &$WorkQuote[1];
+$NoteItems =     &$WorkQuote[2];
+$DiscountItems = &$WorkQuote[3];
+$TargetQuote =    $QuoteInfo['QuoteId'];
 
 //<a href="dbman.php">go here</a>
 

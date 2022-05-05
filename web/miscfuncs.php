@@ -1,4 +1,10 @@
 <?php
+
+/*
+  Miscellaneous functions
+  Joshua Sulouff Z1867688
+*/
+
 function print_html_header($title = "Generic Page", $stylesheet = "back.css") {
  echo("<!DOCTYPE html>
         <html lang=\"en\">
@@ -15,4 +21,3 @@ function print_html_header($title = "Generic Page", $stylesheet = "back.css") {
 function print_html_footer(){
   echo("</body></html>");
 }
-

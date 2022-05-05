@@ -4,6 +4,9 @@
 /*
     This page also logs you out if visited
     while logged in
+
+    Joshua Sulouff,
+    
 */
 
     include_once 'activate_debug.php';

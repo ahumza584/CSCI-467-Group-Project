@@ -5,13 +5,13 @@ VALUES
 (2, 'CATHERINE', 'Cat22', 'cbp12' , 'Cathy\'S ADDR', 0),
 (3, 'Mike'     , 'Mik23', 'mbp12'  , 'Mike\'S ADDR' , 0),
 (4, 'David'    , 'Dav24', 'dbp12' , 'DAVID\'S ADDR', 5),
-(5, 'LORA'     , 'Lor25', 'lbp12'  , 'LORA\'S ADDR', 0)
+(5, 'LORA'     , 'Lor25', 'lbp12'  , 'LORA\'S ADDR', 3)
 ;
 
 #example order 1
 INSERT INTO SQUOTE (QID, OWNER, EMAIL, DESCRIPT, STATUS, CUSTOMERID)
 VALUES
-(1, 1, 'Zip2@CMAIL.COM', 'Various internal Service', 'PRELIM', 0),
+(1, 1, 'Zip2@CMAIL.COM', 'Various internal Service', 'PRELIM', 55),
 (2, 2, 'Getsmrt12@cc.co', 'assistance with primary project', 'FINAL', 1),
 (3, 1, 'silD@yahoo.corp', 'Service on project 9', 'FINAL', 2),
 (4, 3, 'bigone@cmail.co', 'A big one', 'SANCT', 3)

@@ -2,14 +2,50 @@
 
   /*
     Quote Details viewer action handler
-    Joshua Sulouff
+    Joshua Sulouff Z1867688
   */
 
-  session_start();
+
 
   print_r($_POST);
 
   include_once 'dbfunctions.php';
+
+
+
+  $PrivLevel = -1;
+  // Anonymous
+  if (!array_key_exists('UID', $_SESSION)) {
+    $IsOwner = false;
+    $PrivLevel = -1;
+  }
+  else {
+    $PrivLevel = GetPrivLevel($_SESSION['UID']);
+    // Is the owner
+    if ($QuoteInfo['OwnerId'] == $_SESSION['UID']){
+      $IsOwner = true;
+    }
+    // Is an admin or adjuster
+    else if (IsAdmin($_SESSION['UID']) || IsAdjuster($_SESSION['UID'])) {
+      $IsOwner = true;
+    }
+    // Default to no permissions
+    else {
+      $IsOwner = false;
+    }
+  }
+
+  if ($PrivLevel == -1 && !ALLOW_ANON_EDITING) {
+    echo "<h1> Anonymous users may not edit quotes.</h1>";
+    print_back();
+    exit();
+  }
+
+  if (!$IsOwner && !IGNORE_OWNERSHIP) {
+    echo "<h1> You are not authorized to edit this quote.</h1>";
+    print_back();
+    exit();
+  }
 
   if (array_key_exists('TargetQuote', $_GET)) {
     $TargetQuote = $_GET['TargetQuote'];
@@ -24,6 +60,35 @@
 
   function CheckPost($str) {
     return array_key_exists($str , $_POST);
+  }
+
+  function DestroyQuote() {
+
+      $args = ['qid' => $_GET['TargetQuote']];
+      $sql = "delete from LINEITEM where QID = :qid";
+      DB_doquery($sql, $args);
+      $sql = "delete from NOTE where QID = :qid";
+      DB_doquery($sql, $args);
+      $sql = "delete from DISCOUNT where QID = :qid";
+      DB_doquery($sql, $args);
+      $sql = "delete from SQUOTE where QID = :qid";
+      DB_doquery($sql, $args);
+
+  }
+
+  function FinalizeQuote() {
+    $sql = "update SQUOTE set STATUS = 'FINAL', UPDATED = CURRENT_TIMESTAMP where QID = :qid";
+    DB_doquery($sql, ['qid' => $_GET['TargetQuote']]);
+  }
+
+  function SanctionQuote() {
+    global $PrivLevel;
+    if ($PrivLevel == 5) {
+      $sql = "update SQUOTE set STATUS = 'SANCT', UPDATED = CURRENT_TIMESTAMP where QID = :qid";
+      DB_doquery($sql, ['qid' => $_GET['TargetQuote']]);
+    } else {
+      echo "<h1> You are not authorized to sanction this quote.</h1>";
+    }
   }
 
   function DeleteItem($kind,$id) {
@@ -124,8 +189,9 @@
 
     }
     else {
-      $sql = "update SQUOTE set CUSTOMERID = :cid, EMAIL = :email, DESCRIPT = :desc, UPDATED = CURRENT_TIMESTAMP";
+      $sql = "update SQUOTE set CUSTOMERID = :cid, EMAIL = :email, DESCRIPT = :desc, UPDATED = CURRENT_TIMESTAMP where QID = :qid";
       $args = [
+        'qid' => $_GET['TargetQuote'],
         'cid' => $_POST['NewCustomerID'],
         'email' => $_POST['NewEmail'],
         'desc' => $_POST['NewDescript']
@@ -135,6 +201,14 @@
     }
   }
 
+  function print_back() {
+    global $TargetQuote;
+    $retUrl = "QuoteDetails.new.php?TargetQuote=". $TargetQuote;
+    if (isset($message)) {
+      $retUrl += "&message=" . $message;
+    }
+    echo "<a href=\"". $retUrl . "\">go back</a>";
+  }
 
   { //Deal with Get operations
 
@@ -152,6 +226,16 @@
     if (CheckGet("DestroyDSC")) {
       echo "delete line item : " . $_GET["DestroyDSC"] . "<br>";
       DeleteItem("DSC", $_GET["DestroyDSC"]);
+    }
+
+    if (CheckGet("FinalizeQ")) {
+      echo "Finalize";
+      FinalizeQuote();
+    }
+
+    if (CheckGet("SanctionQ")) {
+      echo "Sanction";
+      SanctionQuote();
     }
 
   }
@@ -197,12 +281,9 @@
     }
   }
 
-  $retUrl = "QuoteDetails.new.php?TargetQuote=". $TargetQuote;
-  if (isset($message)) {
-    $retUrl += "&message=" . $message;
-  }
 
-  echo "<a href=\"". $retUrl . "\">go back</a>";
+
+  print_back();
 
  ?>
  <br>

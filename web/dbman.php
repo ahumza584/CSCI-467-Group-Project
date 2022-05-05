@@ -7,7 +7,11 @@ print_html_header();
 <h1> System debugger </h1>
 <?php
 
-session_start();
+/*
+  System debugger page
+  Joshua Sulouff Z1867688
+*/
+
 
 if(array_key_exists("DestroySession", $_GET)){
   session_destroy();

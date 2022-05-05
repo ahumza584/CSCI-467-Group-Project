@@ -2,7 +2,7 @@
 
 /*
   Quote Details viewer page
-  Joshua Sulouff
+  Joshua Sulouff Z1867688
 */
 
 include_once 'activate_debug.php';
@@ -12,47 +12,32 @@ include_once 'miscfuncs.php';
 print_html_header();
 
 
-// ============== setup ================== //
+// ============== setup ================== ////
 
-session_start();
-echo  $_SESSION['UID'] . "<-- that one <br>";
-function NewWorkQuote() {
-  $mstr = [];
-  $mstr[0] = ['QuoteId' => -1, 'OwnerId' => $_SESSION['UID'], 'Email' => "", 'Description' => "", 'Subtotal' => 0.0, 'DiscountTotal' => 0.0, 'Status' => "Preliminary"];
-  $mstr[1] = [];
-  $mstr[2] = [];
-  $mstr[3] = [];
+//echo $TargetQuote;
 
-  return $mstr;
+if (!array_key_exists('UID', $_SESSION)) {
+  $IsOwner = false;
+  $PrivLevel = -1;
+}
+else {
+  $PrivLevel = GetPrivLevel($_SESSION['UID']);
+  // Is the owner
+  if ($QuoteInfo['OwnerId'] == $_SESSION['UID']){
+    $IsOwner = true;
+  }
+  // Is an admin or adjuster
+  else if (IsAdmin($_SESSION['UID']) || IsAdjuster($_SESSION['UID'])) {
+    $IsOwner = true;
+  }
+  // Default to no permissions
+  else {
+    $IsOwner = false;
+  }
 }
 
-function LoadWorkQuote(int $qid) {
-  $Quote = GetOrderById($qid);
 
-  return $Quote;
-}
-
-if (array_key_exists('TargetQuote', $_GET)) {
-  $WorkQuote = LoadWorkQuote($_GET['TargetQuote']);
-}
-else //New Quote
-{
-  $WorkQuote = NewWorkQuote();
-}
-
-// Set reference for readability
-$QuoteInfo =     &$WorkQuote[0];
-$LineItems =     &$WorkQuote[1];
-$NoteItems =     &$WorkQuote[2];
-$DiscountItems = &$WorkQuote[3];
-$TargetQuote =    $QuoteInfo['QuoteId'];
-
-
-print_r($LineItems);
-
-$Owner = ($QuoteInfo['OwnerId'] == $_SESSION['UID']);
-
-// ================================================= //
+// ================================================= ////
 
 // returns: [[Name, Id], ... ]
 function GetCustomers() {
@@ -77,6 +62,7 @@ function GetCustomers() {
 // Uses $Name as the field name or default
 function Generate_Customer_Choice($label ,$Name="CustomerId") {
   global $QuoteInfo;
+  global $IsOwner;
   //Generate selected first
   $Customers = GetCustomers();
   ////print_r($Customers);
@@ -93,6 +79,10 @@ function Generate_Customer_Choice($label ,$Name="CustomerId") {
         echo " selected ";
       }
 
+      if ((!$IsOwner) && (!IGNORE_OWNERSHIP)) {
+        echo "disabled";
+      }
+
       echo ">" . $Customer['Name'] . "</option>";
     }
   }
@@ -106,13 +96,38 @@ function Generate_Customer_Choice($label ,$Name="CustomerId") {
 }
 
 function Generate_Textbox($label, $Field, $DefaultText = "") {
+  global $IsOwner;
   echo "<label for=\"" . $Field . "\">" . $label . "</label>";
-  echo "<input id=\"". $Field ."\" name=\"". $Field ."\" type=\"text\" value=\"" . $DefaultText . "\">";
+  echo "<input id=\"". $Field ."\" name=\"". $Field ."\" type=\"text\" value=\"" . $DefaultText . "\"";
+
+  if ((!$IsOwner) && (!IGNORE_OWNERSHIP)) {
+    echo " disabled ";
+  }
+
+  echo ">";
 }
 
 function Generate_Destroy_Link($kind, $id) {
   global $TargetQuote;
   return "<a href=\"QuoteAction.php?Destroy" . $kind ."=" . $id . "&TargetQuote=" . $TargetQuote . "\">Delete</a>";
+}
+
+if ($PrivLevel == -1) {
+  echo "Logged in as ANONYMOUS";
+}
+else {
+  $Userinfo = GetAssocInfo($_SESSION['UID']);
+  echo "Logged in as " . $Userinfo['Name'];
+  if ($PrivLevel == 5) {
+    echo " (ADMINSTRATOR) ";
+  }
+  else if ($PrivLevel == 3) {
+    echo " (ADJUSTER) ";
+  }
+  else {
+    echo " (USER) ";
+  }
+  echo "<br>";
 }
 
 if (array_key_exists('reply',$_GET)) {
@@ -139,15 +154,25 @@ echo "<form action=\"QuoteAction.php?TargetQuote=". $TargetQuote ."\" method=\"p
         echo "<tr>";
           echo "<td>" . $LineItem['Charge'] . "</td>";
           echo "<td>" . $LineItem['Label'] . "</td>";
-          echo "<td>" . Generate_Destroy_Link("LIN", $LineItem['Id']) . "</td>";
+
+          if ($IsOwner || IGNORE_OWNERSHIP) {
+            echo "<td>" . Generate_Destroy_Link("LIN", $LineItem['Id']) . "</td>";
+          }
+
         echo "</tr>";
       }
 
     echo "</table>";
-    echo "<div> New line item <br>";
-    Generate_Textbox("Description: ", "NewLineItemDescript", ""); echo "<br>";
-    Generate_Textbox("Price: ", "NewLineItemPrice", ""); echo "<br>";
-    echo "</div>";
+
+
+    if ($IsOwner || IGNORE_OWNERSHIP) {
+      echo "<div> New line item <br>";
+      Generate_Textbox("Description: ", "NewLineItemDescript", ""); echo "<br>";
+      Generate_Textbox("Price: ", "NewLineItemPrice", ""); echo "<br>";
+      echo "</div>";
+    }
+
+
   }
 
   { //OUtput comments ////
@@ -156,14 +181,23 @@ echo "<form action=\"QuoteAction.php?TargetQuote=". $TargetQuote ."\" method=\"p
       foreach ($NoteItems as $NoteItem) {
         echo "<tr>";
           echo "<td>" . $NoteItem['Text'] . "</td>";
-          echo "<td>" . Generate_Destroy_Link("COM", $NoteItem['Id']) . "</td>";
+
+          if ($IsOwner || IGNORE_OWNERSHIP) {
+            echo "<td>" . Generate_Destroy_Link("COM", $NoteItem['Id']) . "</td>";
+          }
+
         echo "</tr>";
       }
 
     echo "</table>";
-    echo "<div> New Comment <br>";
-    Generate_Textbox("", "NewCommentText", ""); echo "<br>";
-    echo "</div>";
+
+    if ($IsOwner || IGNORE_OWNERSHIP) {
+      echo "<div> New Comment <br>";
+      Generate_Textbox("", "NewCommentText", ""); echo "<br>";
+      echo "</div>";
+    }
+
+
   }
 
   { //output Discoutns //
@@ -171,7 +205,7 @@ echo "<form action=\"QuoteAction.php?TargetQuote=". $TargetQuote ."\" method=\"p
       echo "<tr><th>Amount</th><th>Label</th><th>Percentage?</th></tr>";
 
       foreach ($DiscountItems as $DiscountItem) {
-        print_r($DiscountItem);
+        //print_r($DiscountItem);
         echo "<tr>";
           echo "<td>" . $DiscountItem['Value'] . "</td>";
           echo "<td>" . $DiscountItem['Label'] . "</td>";
@@ -185,24 +219,40 @@ echo "<form action=\"QuoteAction.php?TargetQuote=". $TargetQuote ."\" method=\"p
           }
           echo "</td>";
 
-          echo "<td>" . Generate_Destroy_Link("DSC", $DiscountItem['Id']) . "</td>";
+          if($IsOwner || IGNORE_OWNERSHIP){
+            echo "<td>" . Generate_Destroy_Link("DSC", $DiscountItem['Id']) . "</td>";
+          }
+
         echo "</tr>";
       }
 
 
-
     echo "</table>";
-    echo "<div> New discount <br>";
-    Generate_Textbox("Description: ", "NewDiscountDescript", ""); echo "<br>";
-    Generate_Textbox("Price: ", "NewDiscountAmount", "");
 
-    echo '<input type="checkbox" name="NewDiscountPercent" value="true">
-            <label> Percentage </label>
-          <br>';
-    echo "</div>";
+    if ($IsOwner || IGNORE_OWNERSHIP) {
+      echo "<div> New discount <br>";
+      Generate_Textbox("Description: ", "NewDiscountDescript", ""); echo "<br>";
+      Generate_Textbox("Price: ", "NewDiscountAmount", "");
+
+      echo '<input type="checkbox" name="NewDiscountPercent" value="true">
+              <label> Percentage </label>
+            <br>';
+      echo "</div>";
+    }
+
+  }
+  ////
+  if ($PrivLevel == 5) {
+    echo '<a href="QuoteAction.php?SanctionQ=1&TargetQuote='. $TargetQuote .'">Sanction Quote</a><br>';
   }
   //disable if not owned
-  echo "<input type=\"submit\" name=\"Submit\" value=\"Save\" />";
+  if ($IsOwner || IGNORE_OWNERSHIP) {
+    echo '<a href="QuoteAction.php?FinalizeQ=1&TargetQuote='. $TargetQuote .'">Finalize Quote</a><br>';
+    echo "<input type=\"submit\" name=\"Submit\" value=\"Save\" />";
+  }
+    // code...
+
+
   echo "</form>";
 
   print_html_footer();
