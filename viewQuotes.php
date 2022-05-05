@@ -9,19 +9,19 @@
 
 include 'formatters.php';
 include 'dblogin.php';
-
+include 'dbman.php';
 
 
 try {
     // Connection to Database
 
-    // Connection to Legacy Databas
+    // Connection to Legacy Database
 
     //header
     echo "<h1>Quote System</h1>\n";
     echo "<h3>Unresolved Quotes:</h3>";
 
-    display_quotes($qids = null);
+    display_quotes_with_edit_button($qids = null);
 
    
 }
