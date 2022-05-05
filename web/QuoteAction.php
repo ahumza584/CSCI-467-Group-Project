@@ -88,13 +88,19 @@
     }
     $sql = "insert into DISCOUNT (QID, AMOUNT, DESCRIPT, PERCENTAGE)
             values (:qid, :amnt, :desc, :percent)";
-    $PercentBool = ($_POST['NewDiscountPercent']) == 1;
     $args = [
       'qid'         => $TargetQuote,
       'amnt'        => $Amount,
       'desc'        => $Description,
       'percent'     => $PercentBool,
     ];
+
+    if ($PercentBool) {
+      $args['percent'] = "1";
+    }
+    else {
+      $args['percent'] = "0";
+    }
     DB_doquery($sql, $args);
   }
 
@@ -178,9 +184,9 @@
         CreateComment($_POST['NewCommentText']);
       }
 
-      if (CheckPost('NewDiscount')) {
+      if (CheckPost('NewDiscountAmount') && CheckPost('NewDiscountDescript')) {
         echo "New Discount";
-        $PercBool = array_key_exists('NewDiscountPercent');
+        $PercBool = CheckPost('NewDiscountPercent');
         CreateDiscount(floatval($_POST["NewDiscountAmount"]), $_POST["NewDiscountDescript"], $PercBool);
       }
 

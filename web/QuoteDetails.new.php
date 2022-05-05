@@ -194,7 +194,11 @@ echo "<form action=\"QuoteAction.php?TargetQuote=". $TargetQuote ."\" method=\"p
     echo "</table>";
     echo "<div> New discount <br>";
     Generate_Textbox("Description: ", "NewDiscountDescript", ""); echo "<br>";
-    Generate_Textbox("Price: ", "NewDiscountAmount", ""); echo "<br>";
+    Generate_Textbox("Price: ", "NewDiscountAmount", "");
+
+    echo '<input type="checkbox" name="NewDiscountPercent" value="true">
+            <label> Percentage </label>
+          <br>';
     echo "</div>";
   }
   //disable if not owned
