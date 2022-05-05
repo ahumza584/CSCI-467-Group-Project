@@ -1,5 +1,10 @@
  <?php
 
+/*
+  various functions for outputting data
+  Joshua Sulouff Z1867688
+*/
+
 function display_associates($assocIds = null) {
     if (is_null($assocIds)){
         $assocIds = get_all_associate_ids();

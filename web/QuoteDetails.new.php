@@ -139,6 +139,8 @@ if (array_key_exists('reply',$_GET)) {
   echo "Reply: " . $_GET['reply'];
 }
 
+echo '<a href="searchquotes.php"> Return to quote listing </a> <br>';
+
 echo "<h1> Quote editing</h1>";
 echo "<form action=\"QuoteAction.php?TargetQuote=". $TargetQuote ."\" method=\"post\">";
   echo "Quote #" . $QuoteInfo['QuoteId'] . "<br>";

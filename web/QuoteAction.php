@@ -63,7 +63,7 @@
   }
 
   function DestroyQuote() {
-
+      global $TargetQuote;
       $args = ['qid' => $_GET['TargetQuote']];
       $sql = "delete from LINEITEM where QID = :qid";
       DB_doquery($sql, $args);
@@ -73,6 +73,10 @@
       DB_doquery($sql, $args);
       $sql = "delete from SQUOTE where QID = :qid";
       DB_doquery($sql, $args);
+
+      $TargetQuote = -1;
+      print_back();
+      exit();
 
   }
 
@@ -203,7 +207,13 @@
 
   function print_back() {
     global $TargetQuote;
-    $retUrl = "QuoteDetails.new.php?TargetQuote=". $TargetQuote;
+    if ($TargetQuote == -1) {
+      $retUrl = "QuoteDetails.new.php";
+    }
+    else {
+      $retUrl = "QuoteDetails.new.php?TargetQuote=". $TargetQuote;
+    }
+
     if (isset($message)) {
       $retUrl += "&message=" . $message;
     }
@@ -236,6 +246,10 @@
     if (CheckGet("SanctionQ")) {
       echo "Sanction";
       SanctionQuote();
+    }
+
+    if (CheckGet("DeleteQ")) {
+      DestroyQuote();
     }
 
   }
