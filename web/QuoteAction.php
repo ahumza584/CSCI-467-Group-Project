@@ -249,7 +249,13 @@
     }
 
     if (CheckGet("DeleteQ")) {
-      DestroyQuote();
+      if ($IsOwner || IGNORE_OWNERSHIP) {
+        DestroyQuote();
+      }
+      else {
+        echo "<h1> You are not authorized to delete this quote.</h1>";
+      }
+
     }
 
   }
