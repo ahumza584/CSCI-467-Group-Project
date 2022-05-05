@@ -16,6 +16,11 @@ print_html_header();
 
 //echo $TargetQuote;
 
+if (isset($FLAG_ANON_CREATE)) {
+  echo "<h1> Anonymous users may not create quotes.</h1>";
+  exit();
+}
+
 if (!array_key_exists('UID', $_SESSION)) {
   $IsOwner = false;
   $PrivLevel = -1;

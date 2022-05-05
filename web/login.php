@@ -6,12 +6,18 @@
     while logged in
 
     Joshua Sulouff,
-    
+
 */
+    //log person out if accessing login page
+    session_start();
+    session_destroy();
+
+    print_r($_POST);
 
     include_once 'activate_debug.php';
-    include_once 'dblogin.php';
     include_once 'dbfunctions.php';
+    include_once 'dblogin.php';
+
 
     if(array_key_exists('login',$_POST)) {
         if(empty($_POST['id']) || empty($_POST['password'])) {
@@ -19,14 +25,14 @@
         }
         else {
             $res = attempt_login($_POST['id'], $_POST['password']);
+            echo "<br> THIS ONE " . $res . "<br>";
             if ($res < 0) { //If no user is found
                 $message = '<label>*Incorrect login info. Try again.</label>';
             } else          //Otherwise, go to other
             {
                 //Start session upon success, and redirect to quote creation page
-                session_start();
                 $_SESSION['UID'] = $res;
-                header("location:createQuote.php");
+                header("location:QuoteDetails.new.php");
             }
         }
 

@@ -144,7 +144,7 @@ function GetAssocInfo(int $AssocId) {
     return $mstr;
 }
 
-function DB_doquery($sql, $varArray = array()){
+function DB_doquery($sql, $varArray = null){
     global $pdo;
     $statement = $pdo->prepare($sql);
     if(isset($varArray))
@@ -153,7 +153,6 @@ function DB_doquery($sql, $varArray = array()){
     } else {
         $statement->execute();
     }
-
 
     return $statement->fetchall();
 }
@@ -220,15 +219,30 @@ function get_orders_for_associate(int $aid) {
 /*  Returns a 2 value array.
  *  [0] => Associate ID (Or -1 if login fails)
  *  [1] => Privilege level for associate
- */
+ */////////////
 function attempt_login($uname, $pass) {
-    $sql = "select ID from ASSOCIATE where UNAME = ':uname' and PASSWD = ':passwrd'";
-    $res = DB_doquery($sql, ['uname' => $uname, 'passwrd' => $pass]);
-    if (empty($res))
-    {
-        return -1;
-    } else {
-        return $res[0]['ID'];
+  global $pdo;
+    $sql = "select ID from ASSOCIATE where UNAME = :u and PASSWD = :p";
+    echo "<br>Username: " . $uname . "<br>";
+    echo "Password: " . $pass . "<br>";
+    $args = array('u' => $uname, 'p' => $pass);
+    print_r($args);
+
+    $statement = $pdo->prepare($sql);
+    echo "<br>Success?:: ";
+    echo $statement->execute($args);
+    echo "<br>";
+    $statement->debugDumpParams();
+    echo "<br>";
+    $res = $statement->fetch();
+    echo "Res: ";
+    print_r($res);
+
+    if (empty($res)) {
+      return -1;
+    }
+    else {
+      return $res['ID'];
     }
 }
 
@@ -269,18 +283,24 @@ if (array_key_exists('TargetQuote', $_GET)) {
   $WorkQuote = LoadWorkQuote($_GET['TargetQuote']);
   $TargetQuote = intval($_GET['TargetQuote']);
 }
-else //New Quote///
+else if (array_key_exists('UID', $_SESSION))
 {
   $WorkQuote = NewWorkQuote();
   $TargetQuote = -1;
 }
+else {
+  $FLAG_ANON_CREATE = 1;
+}
 
-// Set reference for readability
-$QuoteInfo =     &$WorkQuote[0];
-$LineItems =     &$WorkQuote[1];
-$NoteItems =     &$WorkQuote[2];
-$DiscountItems = &$WorkQuote[3];
-$TargetQuote =    $QuoteInfo['QuoteId'];
+if (isset($TargetQuote)) {
+  // Set reference for readability
+  $QuoteInfo =     &$WorkQuote[0];
+  $LineItems =     &$WorkQuote[1];
+  $NoteItems =     &$WorkQuote[2];
+  $DiscountItems = &$WorkQuote[3];
+  $TargetQuote =    $QuoteInfo['QuoteId'];
+}
+
 
 //<a href="dbman.php">go here</a>
 
