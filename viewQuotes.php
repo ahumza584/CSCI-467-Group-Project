@@ -20,6 +20,8 @@ try {
     //header
     echo "<h1>Quote System</h1>\n";
     echo "<h3>Unresolved Quotes:</h3>";
+	
+    echo ' <a href="QuoteDetails.new.php">New Quote</a>';
 
     display_quotes_with_edit_button($qids = null);
 
