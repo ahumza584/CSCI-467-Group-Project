@@ -9,6 +9,13 @@ print_html_header();
 
 session_start();
 
+if(array_key_exists("DestroySession", $_GET)){
+  session_destroy();
+  session_start();
+}
+
+
+
 print_r($_POST);
 
 if(array_key_exists("resetdb", $_POST)){
@@ -24,6 +31,7 @@ if(array_key_exists("USwap", $_POST)){
 }
 
 
+
 ?>
 
 <form action="dbman.php" method="post">
@@ -35,6 +43,7 @@ if(array_key_exists("USwap", $_POST)){
 <a href="createQuote.php">Create quote dialog</a> <br>
 <a href="viewQuotes.php">Quote viewing dialog</a> <br>
 <a href="login.php">log out</a> <br>
+<a href="dbman.php?DestroySession=a">Destroy session</a> <br>
 
 <?php
 

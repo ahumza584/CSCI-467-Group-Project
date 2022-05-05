@@ -17,35 +17,31 @@ function NewWorkQuote() {
   $mstr[1] = [];
   $mstr[2] = [];
   $mstr[3] = [];
-  $_SESSION['WORKQUOTE'] = $mstr;
-}
 
-function ClearWorkQuote() {
-  unset($_SESSION['WORKQUOTE']);
-  NewWorkQuote();
+  return $mstr;
 }
 
 function LoadWorkQuote(int $qid) {
-  ClearWorkQuote();
   $Quote = GetOrderById($qid);
-  $_SESSION['WORKQUOTE'] = $Quote;
+
+  return $Quote;
 }
 
 if (array_key_exists('TargetQuote', $_GET)) {
-  LoadWorkQuote($_GET['TargetQuote']);
+  $WorkQuote = LoadWorkQuote($_GET['TargetQuote']);
 }
-
-if (!array_key_exists('WORKQUOTE', $_SESSION)) {
-  //Redirect to action to create new quote if none available
-  NewWorkQuote();
+else //New Quote
+{
+  $WorkQuote = NewWorkQuote();
 }
 
 // Set reference for readability
-$WorkQuote =     &$_SESSION['WORKQUOTE'];
 $QuoteInfo =     &$WorkQuote[0];
 $LineItems =     &$WorkQuote[1];
 $NoteItems =     &$WorkQuote[2];
 $DiscountItems = &$WorkQuote[3];
+$TargetQuote =    $QuoteInfo['QuoteId'];
+
 
 print_r($LineItems);
 
@@ -109,7 +105,8 @@ function Generate_Textbox($label, $Field, $DefaultText = "") {
 }
 
 function Generate_Destroy_Link($kind, $id) {
-  return "<a href=\"QuoteAction.php?Destroy" . $kind ."=" . $id ."\">Delete</a>";
+  global $TargetQuote;
+  return "<a href=\"QuoteAction.php?Destroy" . $kind ."=" . $id . "&TargetQuote=" . $TargetQuote . "\">Delete</a>";
 }
 
 echo "<h1> Quote editing</h1>";
@@ -167,7 +164,7 @@ echo "<form action=\"QuoteAction.php\" method=\"post\">";
         print_r($DiscountItem);
         echo "<tr>";
           echo "<td>" . $DiscountItem['Value'] . "</td>";
-          echo "<td>" . $LineItem['Label'] . "</td>";
+          echo "<td>" . $DiscountItem['Label'] . "</td>";
 
           echo "<td>";
           if ($DiscountItem['IsPercent']) {
@@ -178,7 +175,7 @@ echo "<form action=\"QuoteAction.php\" method=\"post\">";
           }
           echo "</td>";
 
-          echo "<td>" . Generate_Destroy_Link("DSC", $LineItem['Id']) . "</td>";
+          echo "<td>" . Generate_Destroy_Link("DSC", $DiscountItem['Id']) . "</td>";
         echo "</tr>";
       }
 

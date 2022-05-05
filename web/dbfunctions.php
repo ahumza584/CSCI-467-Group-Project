@@ -87,6 +87,7 @@ function GetOrderById(int $QuoteId) {
         $drow['IsPercent'] = $row['PERCENTAGE'];
         $drow['Value']     = $row['AMOUNT'];
         $drow['Label']     = $row['DESCRIPT'];
+        $drow['Id']        = $row['ID'];
         $Discounts[] = $drow;
 
         if ($row['PERCENTAGE']) {
@@ -102,25 +103,7 @@ function GetOrderById(int $QuoteId) {
     return $mstr;
 }
 
-/*
- * Attempts to insert a value into the Quotes table
- * Input takes same format as GetOrderById
- * 0 -> Base Order info (['QuoteId'],['OwnerID'], ['Email'], ['Description'], ['Subtotal']
- * 1 -> line items (['Charge'], ['Label'])
- * 2 -> notes (Raw text)
- * 3 -> Discounts (['IsPercent'], ['Value'], ['Label])
- */
-function CreateQuote($owner, $email, $description="none given") {
-    $sql = "insert into SQUOTE (OWNER, EMAIL, DESCRIPT, STATUS) values (:oid, :email, :desc, 'PRELIM')";
-    DB_doquery($sql, ['oid' => $owner, 'email'=> $email, 'desc'=>$description]);
-}
-function ChangeQuoteStatus($QuoteId, $NewStat){
-    $sql = "update SQUOTE ";
-}
-function AddLineitem($QuoteId, $Amount, $Label="none given") {
-    $sql = "insert into LINEITEM (QID, PRICE, DESCRIPT) values (:qid, :cost , :label)";
-    DB_doquery($sql, ['qid'=> $QuoteId, 'cost'=> $Amount, 'label'=>$Label]);
-}
+
 // note: haven't tested this one
 function compute_final_value($Quote) {
     $base = $Quote[0]['Subtotal'];
