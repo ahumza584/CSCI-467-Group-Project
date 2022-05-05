@@ -14,7 +14,32 @@
 
     include 'dblogin.php';
     include 'dbfunctions.php';
-    include 'library.php';
+    //include 'library.php';
+    include 'formatters.php';
+
+
+        //This is where drawing table starts
+        function draw_table($rows){
+            echo "<table border=1 cellspacing=1>";
+            echo "<tr>";
+            foreach($rows[0] as $key => $item ) {
+                echo "<th>$key</th>";
+            }
+            echo "</tr>"; 
+            foreach($rows as $row){
+                $id = '';
+                echo "<tr>";
+                foreach($row as $key => $item ) {
+                    echo "<td>$item</td>";
+                    //$id = $item[0];
+                }
+                //echo ($rows[0]);
+                //echo '<td>.$rows[0].</td>';
+                echo '<td><a href="QuoteDetails.new.php/?TargetQuote='.$row['QID'].'">View</a></td>';
+                echo "</tr>";
+            }
+            echo "</table>\n";
+        } //finish drawing table
    
     try{
         echo ' <a href="adminHome.php">Home</a>'; //goes back to admin home page if this is clicked
