@@ -225,6 +225,7 @@
     if (isset($message)) {
       $retUrl += "&message=" . $message;
     }
+    header("location:" . $returl);
     echo "<a href=\"". $retUrl . "\">go back</a>";
   }
 
