@@ -156,10 +156,12 @@ function display_associates_with_id_buton($assocIds = null) {
         <th> ID </th>
         <th> Name </th>
         <th> Address </th>
-        <th> commission </th>
+        <th> Commission Rate</th>
+        <th> Commission Accrued </th>
         <th> Username </th>
         <th> Password </th>
         <th> Privelege Level </th>
+        <th> CommisionRate </th>
         </tr>
     ");
     foreach($assocIds as $AssociateId) {
@@ -168,7 +170,8 @@ function display_associates_with_id_buton($assocIds = null) {
             echo ("<td>" . $AssociateId        . "</td>");
             echo ("<td>" . $ainfo['Name']      . "</td>");
             echo ("<td>" . $ainfo['Address']   . "</td>");
-            echo ("<td>" . $ainfo['Commision'] . "</td>");
+            echo ("<td>" . $ainfo['CommisionRate'] . "</td>");
+            echo ("<td>" . $ainfo['CommisionAccrued'] . "</td>");
             echo ("<td>" . $ainfo['Username']  . "</td>");
             echo ("<td>" . "WITHHELD"          . "</td>");
             echo ("<td>" . $ainfo['AuthLevel'] . "</td>");

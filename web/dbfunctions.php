@@ -137,8 +137,10 @@ function GetAssocInfo(int $AssocId) {
 
     $mstr ['Name']      = $assoc['NAME'];
     $mstr ['Address']   = $assoc['ADDRESS'];
-    $mstr ['Username']  = $assoc['UNAME'];
-    $mstr ['Commision'] = $assoc['COMMISSION'];
+    $mstr ['Username']         = $assoc['UNAME'];
+    $mstr ['Commission']       = $assoc['COMMISSION'];
+    $mstr ['CommisionAccrued'] = $assoc['COMMISSION'];
+    $mstr ['CommisionRate'] = $assoc['COMMRATE'];
     $mstr ['AuthLevel'] = $assoc['PRIVLEVEL'];
 
     return $mstr;
@@ -223,21 +225,10 @@ function get_orders_for_associate(int $aid) {
 function attempt_login($uname, $pass) {
   global $pdo;
     $sql = "select ID from ASSOCIATE where UNAME = :u and PASSWD = :p";
-    echo "<br>Username: " . $uname . "<br>";
-    echo "Password: " . $pass . "<br>";
     $args = array('u' => $uname, 'p' => $pass);
-    print_r($args);
-
     $statement = $pdo->prepare($sql);
-    echo "<br>Success?:: ";
-    echo $statement->execute($args);
-    echo "<br>";
     $statement->debugDumpParams();
-    echo "<br>";
     $res = $statement->fetch();
-    echo "Res: ";
-    print_r($res);
-
     if (empty($res)) {
       return -1;
     }
@@ -301,6 +292,10 @@ if (isset($TargetQuote)) {
   $TargetQuote =    $QuoteInfo['QuoteId'];
 }
 
+function AddAssociateComm(int $Aid, float $val) {
+  $sql = 'update ASSOCIATE set COMMISSION = COMMISSION + :amnt WHERE ID = :aid';
+  DB_doquery($sql, array('amnt' => $val, 'aid' => $Aid));
+}
 
 //<a href="dbman.php">go here</a>
 

@@ -11,9 +11,6 @@
     //log person out if accessing login page
     session_start();
     session_destroy();
-
-    print_r($_POST);
-
     include_once 'activate_debug.php';
     include_once 'dbfunctions.php';
     include_once 'dblogin.php';

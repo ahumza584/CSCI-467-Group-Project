@@ -9,6 +9,13 @@
 
   print_r($_POST);
 
+  if (array_key_exists('TargetQuote', $_GET)) {
+    $TargetQuote = $_GET['TargetQuote'];
+  }
+  else {
+    echo "Invalid entry: no target quote";
+  }
+
   include_once 'dbfunctions.php';
 
 
@@ -47,12 +54,7 @@
     exit();
   }
 
-  if (array_key_exists('TargetQuote', $_GET)) {
-    $TargetQuote = $_GET['TargetQuote'];
-  }
-  else {
-    echo "Invalid entry: no target quote";
-  }
+
 
   function CheckGet($str) {
     return array_key_exists($str , $_GET);
@@ -79,17 +81,23 @@
       exit();
 
   }
-
+///.......
   function FinalizeQuote() {
     $sql = "update SQUOTE set STATUS = 'FINAL', UPDATED = CURRENT_TIMESTAMP where QID = :qid";
     DB_doquery($sql, ['qid' => $_GET['TargetQuote']]);
   }
 
   function SanctionQuote() {
+    global $QuoteInfo;
     global $PrivLevel;
     if ($PrivLevel == 5) {
       $sql = "update SQUOTE set STATUS = 'SANCT', UPDATED = CURRENT_TIMESTAMP where QID = :qid";
       DB_doquery($sql, ['qid' => $_GET['TargetQuote']]);
+      $res = GetAssocInfo($QuoteInfo['OwnerId'])['CommisionRate'];
+      $res *= $QuoteInfo['Subtotal'];
+      echo "Commission added: " . $res;
+      AddAssociateComm($QuoteInfo['OwnerId'],$res);
+
     } else {
       echo "<h1> You are not authorized to sanction this quote.</h1>";
     }
@@ -300,8 +308,6 @@
       echo "Reload quote <br>";
     }
   }
-
-
 
   print_back();
 

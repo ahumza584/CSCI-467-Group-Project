@@ -6,6 +6,7 @@ CREATE TABLE ASSOCIATE(
     UNAME              CHAR (32)         NOT NULL UNIQUE,
     PASSWD             CHAR (42)         NOT NULL,
     PRIVLEVEL          INT               NOT NULL,
+    COMMRATE	         FLOAT(4.3)	 DEFAULT(.08),
     COMMISSION         FLOAT(8.2)        DEFAULT(0),
     ADDRESS            CHAR (42)         NOT NULL,
 

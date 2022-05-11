@@ -1,12 +1,12 @@
 <html><head><title>Associates Info</title></head>
 
-    <!--    
+    <!--
         Maria Sofia
         Z1940447
         Quote System
 
         This is the associates page for the admin interface.
-        The interface allows to view, add, edit and delete sales associate records. 
+        The interface allows to view, add, edit and delete sales associate records.
     -->
 
 <?php
@@ -18,7 +18,8 @@ function display_all_associates() {
         <th> ID </th>
         <th> Name </th>
         <th> Address </th>
-        <th> commission </th>
+        <th> commission rate </th>
+        <th> commission total </th>
         <th> Username </th>
         <th> Password </th>
         <th> Privelege Level </th>
@@ -31,7 +32,8 @@ function display_all_associates() {
             echo ("<td>" . $AssociateId        . "</td>");
             echo ("<td>" . $ainfo['Name']      . "</td>");
             echo ("<td>" . $ainfo['Address']   . "</td>");
-            echo ("<td>" . $ainfo['Commision'] . "</td>");
+            echo ("<td>" . $ainfo['CommisionRate'] . "</td>");
+            echo ("<td>" . $ainfo['CommisionAccrued'] . "</td>");
             echo ("<td>" . $ainfo['Username']  . "</td>");
             echo ("<td>" . "WITHHELD"          . "</td>");
             echo ("<td>" . $ainfo['AuthLevel'] . "</td>");
@@ -42,24 +44,21 @@ function display_all_associates() {
     //echo("</table>");
 }
 
-
-    session_start();
     error_reporting(E_ALL);
 
     include 'dblogin.php';
-    include 'library.php';
     include 'dbfunctions.php';
-   
+
     try{
 
         echo ' <a href="adminHome.php">Home</a>'; //goes back to admin home page if this is clicked
         display_all_associates();
 
-        if(isset($_POST["add"]))  
-        {  
-            header("location:addAssoc.php"); 
+        if(isset($_POST["add"]))
+        {
+            header("location:addAssoc.php");
         }
-        
+
         /*echo ("<h1>\nSales Associates:\n<h1>");
             $rs = $pdo->query("SELECT * FROM ASSOCIATE;");
             $rows = $rs->fetchAll(PDO::FETCH_ASSOC);
@@ -77,7 +76,7 @@ function display_all_associates() {
             </tr>
             </thead>
             <tbody>';
-        
+
         $count=1;
         $sel_query="SELECT * FROM ASSOCIATE;";
         $result = mysqli_query($pdo,$sel_query);
@@ -93,12 +92,12 @@ function display_all_associates() {
             <a href="delete.php?id=<?php echo $row["id"]; ?>">Delete</a>
             </td>
             </tr>';
-            $count++; 
+            $count++;
         }
         echo
         '</tbody>
         </table>';*/
-    
+
     }
 
     catch(PDOexception $e){
@@ -106,20 +105,19 @@ function display_all_associates() {
     }
 ?>
 
-<body>  
-    <br/>  
-    <div class="container" style="width:500px;"> 
-    <h1> Associates </h1>   
-    <form method="POST">  
+<body>
+    <br/>
+    <div class="container" style="width:500px;">
+    <h1> Associates </h1>
+    <form method="POST">
         <button class="button" style='font-size:14;' name="add">Add New Associate</button>
-    </form>  
-    <?php  
-        if(isset($message))  
-        {  
-            echo '<label class="text-danger">'.$message.'</label>';  
-        }  
+    </form>
+    <?php
+        if(isset($message))
+        {
+            echo '<label class="text-danger">'.$message.'</label>';
+        }
     ?>
-        </div>  
-        <br/>  
+        </div>
+        <br/>
 </body></html>
-
